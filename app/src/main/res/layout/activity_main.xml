@@ -82,7 +82,7 @@
                 android:textSize="24sp"
                 app:cornerRadius="10dp"
                 android:clickable="true"
-                android:onClick="loginClicked"
+                android:onClick="onLoginButtonClick"
                 android:focusable="true"/>
             <!-- register -->
             <TextView
@@ -93,7 +93,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="15dp"
                 android:clickable="true"
-                android:onClick="newUserClicked"
+                android:onClick="onNewUserTextClick"
                 android:focusable="true" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

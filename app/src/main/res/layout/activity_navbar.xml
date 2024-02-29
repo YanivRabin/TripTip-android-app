@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <!-- background -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/my_bg" />
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true">
 
     <!-- tab -->
     <androidx.cardview.widget.CardView
@@ -44,6 +37,7 @@
                     android:layout_gravity="center">
 
                     <ImageButton
+                        android:id="@+id/homeButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/home_icon"
@@ -74,6 +68,7 @@
                     android:layout_gravity="center">
 
                     <ImageButton
+                        android:id="@+id/searchButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/search_icon"
@@ -104,6 +99,7 @@
                     android:layout_gravity="center">
 
                     <ImageButton
+                        android:id="@+id/profileButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/profile_icon"
@@ -121,5 +117,4 @@
             </FrameLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-    
-</RelativeLayout>
+</LinearLayout>
