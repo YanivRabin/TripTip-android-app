@@ -53,10 +53,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Welcome"
+                android:text="New user"
                 android:textColor="@color/my_primary"
                 android:textSize="32sp"
                 android:textStyle="bold" />
+            <!-- name -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:drawableStart="@drawable/account_icon"
+                android:drawablePadding="5dp"
+                android:hint="Name" />
             <!-- email -->
             <EditText
                 android:layout_width="match_parent"
@@ -73,27 +81,24 @@
                 android:drawableStart="@drawable/password_icon"
                 android:drawablePadding="5dp"
                 android:hint="Password" />
-            <!-- login button -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/password_icon"
+                android:drawablePadding="5dp"
+                android:hint="Repet password" />
+            <!-- register button -->
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Login"
+                android:text="Register"
                 android:textSize="24sp"
                 app:cornerRadius="10dp"
                 android:clickable="true"
-                android:onClick="loginClicked"
-                android:focusable="true"/>
-            <!-- register -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="New user? Register"
-                android:textStyle="bold"
-                android:layout_marginTop="15dp"
-                android:clickable="true"
-                android:onClick="newUserClicked"
+                android:onClick="registerClicked"
                 android:focusable="true" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     
