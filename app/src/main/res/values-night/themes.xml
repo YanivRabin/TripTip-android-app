@@ -3,6 +3,7 @@
     <style name="Base.Theme.ViewAndroidApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <item name="colorPrimary">@color/my_primary</item>
-        <item name="android:statusBarColor">@color/my_primary</item>
+        <item name="android:statusBarColor">@color/my_bg</item>4
     </style>
+    <style name="Theme.ViewAndroidApp" parent="Base.Theme.ViewAndroidApp" />
 </resources>
