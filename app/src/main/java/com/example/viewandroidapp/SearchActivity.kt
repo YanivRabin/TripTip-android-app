@@ -1,5 +1,6 @@
 package com.example.viewandroidapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -8,6 +9,7 @@ import android.widget.SearchView
 import com.example.viewandroidapp.databinding.ActivitySearchBinding
 
 class SearchActivity : AppCompatActivity() {
+
     // to use activity_search write ActivitySearchBinding, for main write ActivityMainBinding etc...
     private lateinit var binding : ActivitySearchBinding
 
@@ -18,11 +20,19 @@ class SearchActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // handle the list
-        val countries = resources.getStringArray(R.array.countries_array)
+        val countries = resources.getStringArray(R.array.countries_coordinate_array)
         val countriesAdapter : ArrayAdapter<String> = ArrayAdapter(
-            this, android.R.layout.simple_list_item_1, countries
+            this, android.R.layout.simple_list_item_1, countries.map { it.split(",")[0] }
         )
         binding.countriesList.adapter = countriesAdapter
+        binding.countriesList.setOnItemClickListener { _, _, position, _ ->
+            val selectedCountry = countriesAdapter.getItem(position)
+            val intent = Intent(this, PostsActivity::class.java)
+            intent.putExtra("countryName", selectedCountry)
+            startActivity(intent)
+        }
+
+
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.searchView.clearFocus()

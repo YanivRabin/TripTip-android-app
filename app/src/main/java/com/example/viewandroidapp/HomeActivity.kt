@@ -1,6 +1,7 @@
 package com.example.viewandroidapp
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
+class HomeActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private lateinit var myMap : GoogleMap
     private lateinit var lastLocation : Location
@@ -46,6 +47,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         myMap = googleMap
         myMap.uiSettings.isZoomControlsEnabled = true
+        myMap.setOnMarkerClickListener(this)
         setUpMap()
     }
 
@@ -59,11 +61,38 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
             if (location != null) {
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-//                val markerOptions = MarkerOptions().position(currentLatLng)
-//                markerOptions.title("$currentLatLng")
-//                myMap.addMarker(markerOptions)
                 myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
             }
         }
+        // Fetch countries and their coordinates from the resource array
+        val countriesArray = resources.getStringArray(R.array.countries_coordinate_array).map { it.split(",")[0] }
+        val countriesCoordinateArray = resources.getStringArray(R.array.countries_coordinate_array)
+
+        // Check if the two arrays have the same length
+        if (countriesArray.size == countriesCoordinateArray.size) {
+            for (i in countriesArray.indices) {
+                val countryName = countriesArray[i]
+                val coordinates = countriesCoordinateArray[i].split(",")
+                if (coordinates.size == 3) {
+                    val lat = coordinates[1].toDoubleOrNull()
+                    val lng = coordinates[2].toDoubleOrNull()
+                    if (lat != null && lng != null) {
+                        val countryLatLng = LatLng(lat, lng)
+                        val markerOptions = MarkerOptions()
+                            .position(countryLatLng)
+                            .title(countryName)
+                        myMap.addMarker(markerOptions)
+                    }
+                }
+            }
+        }
+    }
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val intent = Intent(this, PostsActivity::class.java)
+        intent.putExtra("countryName", marker.title)
+        startActivity(intent)
+        return true
     }
 }
+
+data class Country(val name: String, val latLng: LatLng)
