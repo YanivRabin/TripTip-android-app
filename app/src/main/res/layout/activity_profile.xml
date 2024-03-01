@@ -24,7 +24,6 @@
 
     </LinearLayout>
 
-
-
+    <!-- navbar -->
     <include layout="@layout/activity_navbar" />
 </LinearLayout>

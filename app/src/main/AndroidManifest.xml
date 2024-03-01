@@ -25,6 +25,9 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".ProfileActivity" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${GOOGLE_MAPS_KEY}" />
     </application>
 
 </manifest>
