@@ -2,13 +2,12 @@ package com.example.viewandroidapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageButton
 
-class HomeActivity : AppCompatActivity() {
+class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_profile)
 
         // Setup navigation buttons
         val homeButton: ImageButton = findViewById(R.id.homeButton)
@@ -16,6 +15,4 @@ class HomeActivity : AppCompatActivity() {
         val profileButton: ImageButton = findViewById(R.id.profileButton)
         NavUtil.setupActivityButtons(this, homeButton, searchButton, profileButton)
     }
-
-    fun onIconCloseClick(view: View) {}
 }

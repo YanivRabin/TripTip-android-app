@@ -22,12 +22,12 @@ object NavUtil {
             }
         }
 
-//        profileButton.setOnClickListener {
-//            // Check if the current activity is already ProfileActivity
-//            if (context !is ProfileActivity) {
-//                val intent = Intent(context, ProfileActivity::class.java)
-//                context.startActivity(intent)
-//            }
-//        }
+        profileButton.setOnClickListener {
+            // Check if the current activity is already ProfileActivity
+            if (context !is ProfileActivity) {
+                val intent = Intent(context, ProfileActivity::class.java)
+                context.startActivity(intent)
+            }
+        }
     }
 }

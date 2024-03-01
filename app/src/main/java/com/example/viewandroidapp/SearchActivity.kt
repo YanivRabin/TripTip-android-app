@@ -8,7 +8,6 @@ import android.widget.SearchView
 import com.example.viewandroidapp.databinding.ActivitySearchBinding
 
 class SearchActivity : AppCompatActivity() {
-
     // to use activity_search write ActivitySearchBinding, for main write ActivityMainBinding etc...
     private lateinit var binding : ActivitySearchBinding
 
