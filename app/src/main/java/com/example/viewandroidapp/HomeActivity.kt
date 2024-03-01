@@ -59,9 +59,9 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
             if (location != null) {
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-                val markerOptions = MarkerOptions().position(currentLatLng)
-                markerOptions.title("$currentLatLng")
-                myMap.addMarker(markerOptions)
+//                val markerOptions = MarkerOptions().position(currentLatLng)
+//                markerOptions.title("$currentLatLng")
+//                myMap.addMarker(markerOptions)
                 myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
             }
         }
