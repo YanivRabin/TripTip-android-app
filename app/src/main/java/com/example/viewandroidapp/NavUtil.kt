@@ -7,7 +7,7 @@ import android.widget.ImageButton
 object NavUtil {
     fun setupActivityButtons(context: Context, homeButton: ImageButton, searchButton: ImageButton, profileButton: ImageButton) {
         homeButton.setOnClickListener {
-            // Check if the current activity is already HomeActivity
+            // Check if the current activity is already com.example.viewandroidapp.HomeActivity
             if (context !is HomeActivity) {
                 val intent = Intent(context, HomeActivity::class.java)
                 context.startActivity(intent)
