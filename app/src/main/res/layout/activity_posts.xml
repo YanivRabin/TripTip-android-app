@@ -8,24 +8,62 @@
     tools:context=".MainActivity"
     android:layoutDirection="ltr">
 
-    <!-- background -->
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:background="@color/my_bg" >
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/countryNameTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/profile"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="this is profile"
-            android:textSize="36sp"
-            android:layout_gravity="center" />
+            android:orientation="vertical"
+            android:background="@color/my_bg" >
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/my_bg" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome to"
+                    android:textSize="36sp"
+                    android:paddingTop="20dp"
+                    android:textColor="@color/my_primary"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/countryNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18sp"
+                    android:paddingBottom="20dp"
+                    android:layout_gravity="center" />
+                <!-- Black line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black"
+                    android:paddingBottom="20dp"/>
+
+            </LinearLayout>
+
+            <!-- RecyclerView for posts -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/my_bg"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <!-- navbar -->
-    <include layout="@layout/activity_navbar" />
+    <include layout="@layout/navbar" />
 </LinearLayout>

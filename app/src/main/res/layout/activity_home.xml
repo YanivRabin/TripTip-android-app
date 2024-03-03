@@ -26,5 +26,5 @@
     </LinearLayout>
 
     <!-- navbar -->
-    <include layout="@layout/activity_navbar" />
+    <include layout="@layout/navbar" />
 </LinearLayout>
