@@ -49,7 +49,7 @@ class PostsActivity : AppCompatActivity() {
         for (i in 1..5) {
             posts.add(Post(
                 R.drawable.profile_picture,
-                "Yaniv in $country",
+                "Yaniv is at $country",
                 currentDate,
                 "This is my flight to $country",
                 R.drawable.background

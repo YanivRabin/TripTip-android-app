@@ -1,8 +1,10 @@
 package com.example.viewandroidapp
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,12 +46,18 @@ class ProfileActivity : AppCompatActivity() {
         for (i in 1..5) {
             posts.add(Post(
                 R.drawable.profile_picture,
-                "Yaniv in location",
+                "Yaniv is at location",
                 currentDate,
                 "This is my flight to location",
                 R.drawable.background
             ))
         }
         return posts
+    }
+
+    fun onIconSettingsClick(view: View) {
+        // open setting
+        val intent = Intent(this, ProfileSettingsActivity::class.java)
+        startActivity(intent)
     }
 }
