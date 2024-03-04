@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="my_primary">#6BADCE</color>
     <color name="my_bg">#4D6BADCE</color>
+    <color name="logout">#931D1D</color>
 </resources>

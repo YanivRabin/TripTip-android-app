@@ -58,6 +58,3 @@ class PostsActivity : AppCompatActivity() {
         return posts
     }
 }
-
-
-
