@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     android:orientation="vertical"
-    tools:context=".EditPostActivity"
+    tools:context=".CreatePostActivity"
     tools:ignore="MissingDefaultResource">
 
     <RelativeLayout
@@ -33,7 +33,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:text="Edit post"
+            android:text="Create post"
             android:textSize="26sp" />
 
         <ImageButton
@@ -76,7 +76,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"/>
 
-            <!-- user name and date -->
+            <!-- user name -->
             <LinearLayout
                 android:id="@+id/nameAndDate"
                 android:layout_width="match_parent"
@@ -89,21 +89,12 @@
                     android:id="@+id/nameAndLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name is at location"
+                    android:text="Name"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:layout_marginStart="3dp" />
-
-                <TextView
-                    android:id="@+id/timestamp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2 hours ago"
-                    android:textSize="8sp"
                     android:layout_marginStart="3dp"
-                    tools:ignore="SmallSp" />
+                    android:layout_marginTop="5dp"/>
             </LinearLayout>
-
         </RelativeLayout>
 
         <!-- Post Content -->
@@ -111,25 +102,84 @@
             android:id="@+id/postDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:hint="Talk about your trip..."
             android:textSize="16sp"
             android:textColor="@color/black"
             android:background="@null"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"/>
 
-        <!-- Post Image -->
-        <ImageView
-            android:id="@+id/postImage"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/ic_launcher_background"
-            android:scaleType="centerCrop"
             android:layout_marginTop="8dp"
-            android:onClick="changePostPicture"/>
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onAddPhotoClick">
 
+            <!-- ImageView for the background -->
+            <ImageView
+                android:id="@+id/addPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/addPhotoIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/add_photo_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addPhotoIcon"
+                    android:layout_centerHorizontal="true"
+                    android:text="Add Photo"
+                    android:textColor="@color/my_primary"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onAddLocationClick">
+
+                <!-- Icon -->
+                <ImageView
+                    android:id="@+id/locationIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/location_icon"
+                    android:layout_centerVertical="true" />
+
+                <!-- Text -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/locationIcon"
+                    android:layout_marginStart="8dp"
+                    android:text="Add location"
+                    android:textColor="@color/my_primary"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
-
-
-
 </LinearLayout>

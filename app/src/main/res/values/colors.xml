@@ -2,7 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="my_primary">#6BADCE</color>
+<!--    <color name="my_primary">#6BADCE</color>-->
     <color name="my_bg">#4D6BADCE</color>
     <color name="logout">#931D1D</color>
+    <color name="my_primary">#543EB5</color>
 </resources>

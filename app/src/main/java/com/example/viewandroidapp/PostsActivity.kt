@@ -36,8 +36,9 @@ class PostsActivity : AppCompatActivity() {
         // Setup navigation buttons
         val homeButton: ImageButton = findViewById(R.id.homeButton)
         val searchButton: ImageButton = findViewById(R.id.searchButton)
+        val createPostButton: ImageButton = findViewById(R.id.createPostButton)
         val profileButton: ImageButton = findViewById(R.id.profileButton)
-        NavUtil.setupActivityButtons(this, homeButton, searchButton, profileButton)
+        NavUtil.setupActivityButtons(this, homeButton, searchButton, createPostButton, profileButton)
     }
 
     // Generate dummy list of posts (replace with dataBase)

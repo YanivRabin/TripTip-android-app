@@ -86,6 +86,38 @@
                 </LinearLayout>
             </FrameLayout>
 
+            <!-- create post -->
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/createPostButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/create_post_icon"
+                        android:background="@null"
+                        android:layout_gravity="center"
+                        android:onClick="onIconCreatePostClick" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Create Post"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+            </FrameLayout>
+
             <!-- profile -->
             <FrameLayout
                 android:layout_width="wrap_content"

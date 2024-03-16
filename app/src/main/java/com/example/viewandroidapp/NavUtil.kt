@@ -5,7 +5,11 @@ import android.content.Intent
 import android.widget.ImageButton
 
 object NavUtil {
-    fun setupActivityButtons(context: Context, homeButton: ImageButton, searchButton: ImageButton, profileButton: ImageButton) {
+    fun setupActivityButtons(context: Context,
+                             homeButton: ImageButton,
+                             searchButton: ImageButton,
+                             createPostButton: ImageButton,
+                             profileButton: ImageButton) {
         homeButton.setOnClickListener {
             // Check if the current activity is already HomeActivity.kt
             if (context !is HomeActivity) {
@@ -18,6 +22,14 @@ object NavUtil {
             // Check if the current activity is already SearchActivity
             if (context !is SearchActivity) {
                 val intent = Intent(context, SearchActivity::class.java)
+                context.startActivity(intent)
+            }
+        }
+
+        createPostButton.setOnClickListener {
+            // Check if the current activity is already ProfileActivity
+            if (context !is CreatePostActivity) {
+                val intent = Intent(context, CreatePostActivity::class.java)
                 context.startActivity(intent)
             }
         }

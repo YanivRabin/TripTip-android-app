@@ -29,8 +29,9 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ProfileSettingsActivity" />
-        <activity android:name=".PostsActivity" />
         <activity android:name=".EditPostActivity" />
+        <activity android:name=".PostsActivity" />
+        <activity android:name=".CreatePostActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${GOOGLE_MAPS_KEY}" />

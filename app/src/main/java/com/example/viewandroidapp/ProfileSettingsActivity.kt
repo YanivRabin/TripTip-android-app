@@ -31,7 +31,9 @@ class ProfileSettingsActivity : AppCompatActivity() {
             // dismiss window and go back to login page
             dialogInterface.dismiss()
             val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // Clear back stack
             startActivity(intent)
+            finish()
         }
         builder.setNegativeButton("No") { dialogInterface: DialogInterface, _: Int ->
             dialogInterface.dismiss()
