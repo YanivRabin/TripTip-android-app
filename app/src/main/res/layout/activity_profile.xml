@@ -50,10 +50,10 @@
                     android:scaleType="centerCrop"/>
 
                 <TextView
+                    android:id="@+id/nameTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="NAME"
                     android:textSize="36sp" />
 
             </LinearLayout>

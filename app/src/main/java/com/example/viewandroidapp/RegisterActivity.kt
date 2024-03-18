@@ -36,7 +36,7 @@ class RegisterActivity : AppCompatActivity() {
         if (name.isNotEmpty() && email.isNotEmpty() && password1.isNotEmpty() && password2.isNotEmpty()) {
             if (password1 == password2) {
                 // Register user with AuthModel
-                authModel.signUp(email, password1)
+                authModel.signUp(name, email, password1)
             } else {
                 // Passwords don't match, display an error message
                 Toast.makeText(
