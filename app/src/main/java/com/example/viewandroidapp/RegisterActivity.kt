@@ -11,14 +11,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class RegisterActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
+    private lateinit var authModel: AuthModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        // Initialize Firebase Auth
-        auth = Firebase.auth
+        // Initialize AuthModel
+        authModel = AuthModel(this)
     }
 
     fun onIconCloseClick(view: View) {
@@ -35,24 +35,8 @@ class RegisterActivity : AppCompatActivity() {
 
         if (name.isNotEmpty() && email.isNotEmpty() && password1.isNotEmpty() && password2.isNotEmpty()) {
             if (password1 == password2) {
-                // Register user with Firebase Authentication
-                auth.createUserWithEmailAndPassword(email, password1)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            // Registration successful, navigate to the home page
-                            val intent = Intent(this, HomeActivity::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // Clear back stack
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            // Registration failed, display an error message
-                            Toast.makeText(
-                                baseContext, "Registration failed.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
+                // Register user with AuthModel
+                authModel.signUp(email, password1)
             } else {
                 // Passwords don't match, display an error message
                 Toast.makeText(
