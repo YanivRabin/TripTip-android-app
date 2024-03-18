@@ -4,8 +4,10 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,10 +15,10 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.SearchView
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.example.viewandroidapp.databinding.ActivitySearchBinding
 import com.google.android.gms.location.LocationServices
-import java.io.IOException
 
 class SearchActivity : AppCompatActivity() {
 
@@ -25,7 +27,7 @@ class SearchActivity : AppCompatActivity() {
         private const val REQUEST_LOCATION_PERMISSION = 1001
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,8 +58,9 @@ class SearchActivity : AppCompatActivity() {
         } else {
             fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location?.let {
-                    val currentLocationName = getCurrentLocationName(it)
-                    countriesAdapter.insert("Current Location - $currentLocationName", 0)
+                    getCurrentLocationName(it) { currentLocationName ->
+                        countriesAdapter.insert("Current Location - $currentLocationName", 0)
+                    }
                 }
             }
         }
@@ -104,21 +107,25 @@ class SearchActivity : AppCompatActivity() {
         NavUtil.setupActivityButtons(this, homeButton, searchButton, createPostButton, profileButton)
     }
 
-    private fun getCurrentLocationName(location: Location): String {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun getCurrentLocationName(location: Location, callback: (String) -> Unit) {
         val geocoder = Geocoder(this)
-        try {
-            val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-            if (addresses != null) {
+        geocoder.getFromLocation(location.latitude, location.longitude, 1, object : Geocoder.GeocodeListener {
+            override fun onGeocode(addresses: MutableList<Address>) {
                 if (addresses.isNotEmpty()) {
                     val address = addresses[0]
                     val countryName = address.countryName
-                    return countryName ?: "Unknown Location"
+                    callback(countryName ?: "Unknown Location")
+                } else {
+                    callback("Unknown Location")
                 }
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return "Unknown Location"
+
+            override fun onError(errorMessage: String?) {
+                super.onError(errorMessage)
+                callback("Unknown Location")
+            }
+        })
     }
 
     private fun requestLocationPermission() {
