@@ -30,6 +30,7 @@ class ProfileActivity : AppCompatActivity() {
 
         fireBaseModel = FireBaseModel() // Initialize FireBaseModel
         auth = FirebaseAuth.getInstance()
+        fetchAndDisplayUserName()
 
         // Setup RecyclerView for posts
         recyclerView = findViewById(R.id.recyclerView)
@@ -43,7 +44,6 @@ class ProfileActivity : AppCompatActivity() {
         val createPostButton: ImageButton = findViewById(R.id.createPostButton)
         val profileButton: ImageButton = findViewById(R.id.profileButton)
         NavUtil.setupActivityButtons(this, homeButton, searchButton, createPostButton, profileButton)
-        fetchAndDisplayUserName()
     }
 
     private fun fetchAndDisplayUserName() {

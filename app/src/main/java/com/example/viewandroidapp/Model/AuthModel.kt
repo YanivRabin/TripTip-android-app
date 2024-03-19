@@ -11,8 +11,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class AuthModel(private val context: Context) {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
 
     fun signIn(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
