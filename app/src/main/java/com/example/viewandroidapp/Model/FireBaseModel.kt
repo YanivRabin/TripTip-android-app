@@ -1,6 +1,5 @@
 package com.example.viewandroidapp.Model
 
-import Model.User
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 

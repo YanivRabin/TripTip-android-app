@@ -1,6 +1,6 @@
 package com.example.viewandroidapp
 
-import Model.User
+import com.example.viewandroidapp.Model.User
 import android.content.Context
 import android.content.Intent
 import android.util.Log

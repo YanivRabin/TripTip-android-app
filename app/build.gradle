@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.secrets_gradle_plugin' version '0.4'
     id("com.google.gms.google-services")
+    id 'kotlin-kapt'
 }
 
 android {
@@ -40,6 +41,11 @@ android {
 }
 
 dependencies {
+    def room_version = "2.6.1"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
