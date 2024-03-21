@@ -1,13 +1,17 @@
 package com.example.viewandroidapp.Model
 
 import Model.User
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import java.util.UUID
 
 class FireBaseModel {
     private val db = FirebaseFirestore.getInstance()
     private val usersCollection = db.collection("users") // Reference to the "users" collection in Firestore
-
+    private val storage = FirebaseStorage.getInstance()
+    private val storageRef = storage.reference.child("profile_images")
     fun saveUser(user: User) {
         // Convert User object into a map
         val userData = hashMapOf(
@@ -50,6 +54,26 @@ class FireBaseModel {
         usersCollection.document(email).update("profileImage", newProfilePictureUrl)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure(it) }
+    }
+    fun uploadPhoto(photoUri: Uri, userEmail: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        // Generate a random unique name for the photo
+        val photoName = UUID.randomUUID().toString()
+        val photoRef = storageRef.child("$photoName.jpg")
+
+        // Upload photo to Firebase Storage
+        photoRef.putFile(photoUri)
+            .addOnSuccessListener { taskSnapshot ->
+                // Get the download URL of the uploaded photo
+                photoRef.downloadUrl.addOnSuccessListener { uri ->
+                    // Update the user's profile image URL in Firestore
+                    updateProfilePicture(userEmail, uri.toString(), onSuccess, onFailure)
+                }.addOnFailureListener { exception ->
+                    onFailure(exception)
+                }
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception)
+            }
     }
 
     fun updateUserName(email: String, newName: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
