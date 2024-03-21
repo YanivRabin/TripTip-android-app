@@ -25,6 +25,7 @@ data class Post (
     val ownerEmail: String,
     val description: String,
     val photo: String,
+    val location: String,
     val insertionTime: String = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
         Date()
     ),

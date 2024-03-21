@@ -31,7 +31,7 @@ class PostsActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = PostAdapter(generatePosts(countryName))
+        //recyclerView.adapter = PostAdapter(generatePosts(countryName))
 
         // Setup navigation buttons
         val homeButton: ImageButton = findViewById(R.id.homeButton)

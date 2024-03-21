@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.viewandroidapp.Model.FireBaseModel
 import com.example.viewandroidapp.databinding.ActivityProfileBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -30,13 +31,13 @@ class ProfileActivity : AppCompatActivity() {
 
         fireBaseModel = FireBaseModel() // Initialize FireBaseModel
         auth = FirebaseAuth.getInstance()
-        fetchAndDisplayUserName()
+        fetchAndDisplayUserData()
 
         // Setup RecyclerView for posts
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = PostAdapter(generatePosts())
+       // recyclerView.adapter = PostAdapter(generatePosts())
 
         // Setup navigation buttons
         val homeButton: ImageButton = findViewById(R.id.homeButton)
@@ -46,7 +47,7 @@ class ProfileActivity : AppCompatActivity() {
         NavUtil.setupActivityButtons(this, homeButton, searchButton, createPostButton, profileButton)
     }
 
-    private fun fetchAndDisplayUserName() {
+    private fun fetchAndDisplayUserData() {
         // Get the currently logged-in user
         val currentUser = auth.currentUser
 
@@ -60,8 +61,13 @@ class ProfileActivity : AppCompatActivity() {
                 fireBaseModel.getUser(userEmail) { userData ->
                     userData?.let { user ->
                         // User data retrieved successfully
-                        // Display the user's name in the UI
+                        // Display the user's name and profile photo in the UI
                         binding.nameTextView.text = user.name
+                        // Load profile photo into ImageView using Picasso or Glide
+                        if (!user.profileImage.isNullOrEmpty()) {
+                            Picasso.get()
+                                .load(user.profileImage)
+                                .into(binding.profilePicture)                        }
                     } ?: run {
                         // User not found or error occurred
                         // Handle the situation accordingly
@@ -69,33 +75,53 @@ class ProfileActivity : AppCompatActivity() {
                         binding.nameTextView.text = "User Not Found"
                     }
                 }
-            } else {
-                // Handle case where user's email is null
-                binding.nameTextView.text = "User Email Not Found"
-            }
+            } else { }
         } ?: run {
             // Handle case where no user is signed in
             binding.nameTextView.text = "User Not Logged In"
         }
     }
 
+
     // Generate dummy list of posts (replace with dataBase)
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun generatePosts(): ArrayList<Post> {
-        val posts = arrayListOf<Post>()
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val currentDate = LocalDateTime.now().format(formatter)
-        for (i in 1..5) {
-            posts.add(Post(
-                R.drawable.profile_picture,
-                "Yaniv is at location",
-                currentDate,
-                "This is my flight to location",
-                R.drawable.background
-            ))
+    private fun fetchPosts() {
+        // Get the currently logged-in user's email
+        val currentUserEmail = auth.currentUser?.email
+
+        // Check if the user is logged in
+        currentUserEmail?.let { userEmail ->
+            // Fetch posts from Firestore using the logged-in user's email
+            fireBaseModel.getPosts(userEmail,
+                onSuccess = { posts ->
+                    // Posts fetched successfully
+                    // Update the RecyclerView adapter with the fetched posts
+                    val postAdapter = PostAdapter(posts)
+                    recyclerView.adapter = postAdapter
+                },
+                onFailure = { e ->
+                    // Handle failure to fetch posts
+                    // Log error or show error message
+                }
+            )
         }
-        return posts
     }
+
+//    private fun generatePosts(): ArrayList<Post> {
+//        val posts = arrayListOf<Post>()
+//        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+//        val currentDate = LocalDateTime.now().format(formatter)
+//        for (i in 1..5) {
+//            posts.add(Post(
+//                R.drawable.profile_picture,
+//                "Yaniv is at location",
+//                currentDate,
+//                "This is my flight to location",
+//                R.drawable.background
+//            ))
+//        }
+//        return posts
+//    }
 
     fun onIconSettingsClick(view: View) {
         // Open setting
