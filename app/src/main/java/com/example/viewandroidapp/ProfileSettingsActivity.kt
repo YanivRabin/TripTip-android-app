@@ -4,10 +4,12 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.viewandroidapp.Model.FireBaseModel
 import com.example.viewandroidapp.databinding.ActivityProfileSettingsBinding
@@ -58,9 +60,36 @@ class ProfileSettingsActivity : AppCompatActivity() {
     }
 
     fun changeProfilePictureClick(view: View) {
-        // change profile picture in the database
+        // Open image picker
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        resultLauncher.launch(intent)
     }
 
+    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            // Retrieve the selected image URI
+            val selectedImageUri = result.data?.data
+            selectedImageUri?.let { uri ->
+                // Update ImageView with selected image
+                binding.profilePicture.setImageURI(uri)
+                // Upload the selected image to Firebase Storage
+                val userEmail = auth.currentUser?.email ?: ""
+                selectedImageUri?.let { uri ->
+                    fireBaseModel.uploadPhoto(uri, userEmail,
+                        onSuccess = {
+                            // Profile picture uploaded successfully
+                            // You may want to update UI or show a message here
+                                    Log.e("ProfileSettingsActivity", "Profile picture uploaded successfully")
+                        },
+                        onFailure = { exception ->
+                            // Handle failure
+                            // You may want to show an error message or log the exception
+                            Log.e("ProfileSettingsActivity", "Error uploading profile picture: $exception")
+                        }
+                    )
+                }            }
+        }
+    }
     fun onIconCheckClick(view: View) {
         // Change name in the database
         val newName = findViewById<EditText>(R.id.userName).text.toString()
