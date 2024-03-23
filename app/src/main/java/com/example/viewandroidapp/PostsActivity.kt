@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.BuildConfig
 import com.example.viewandroidapp.databinding.ActivityPostsBinding
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.Places
@@ -49,7 +50,7 @@ class PostsActivity : AppCompatActivity() {
         binding.cardView.visibility = View.GONE
 
         // Initialize the SDK
-        Places.initializeWithNewPlacesApiEnabled(applicationContext, "AIzaSyBIKekkmwD4p8SmXo23bZtiMyn6KGtdu3o")
+        Places.initializeWithNewPlacesApiEnabled(applicationContext, com.example.viewandroidapp.BuildConfig.GOOGLE_MAPS_KEY)
         // Create a new PlacesClient instance
         placesClient = Places.createClient(this)
 

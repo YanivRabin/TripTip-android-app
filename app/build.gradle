@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.secrets_gradle_plugin' version '0.4'
+//    id 'com.google.secrets_gradle_plugin' version '0.4'
 }
 
 android {
@@ -16,6 +16,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        buildConfigField "String", "GOOGLE_MAPS_KEY", "\"${properties.getProperty("GOOGLE_MAPS_KEY")}\""
     }
 
     buildTypes {
@@ -26,6 +30,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig true
         viewBinding true
     }
 
