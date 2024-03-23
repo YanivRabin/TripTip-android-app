@@ -52,8 +52,131 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tipText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Random Tip"
+                android:textColor="#CC543EB5"
+                android:paddingTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:id="@+id/tipText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="no review for this place"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:textSize="14sp"
+                android:paddingBottom="10dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:backgroundTint="@color/my_bg">
+
+                <ProgressBar
+                    android:id="@+id/loadingProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:id="@+id/cardView"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Profile Picture -->
+                        <ImageView
+                            android:id="@+id/profilePicture"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:src="@drawable/account_icon"
+                            android:scaleType="centerCrop"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"/>
+
+                        <!-- user name and date -->
+                        <LinearLayout
+                            android:id="@+id/nameAndDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/profilePicture"
+                            android:orientation="vertical"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Name at place"
+                                android:textSize="16sp"
+                                android:textColor="@color/black"
+                                android:layout_marginStart="3dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
+
+                                <RatingBar
+                                    android:id="@+id/ratingBar"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:numStars="5"
+                                    android:rating="4.5"
+                                    android:stepSize="0.5"
+                                    android:isIndicator="true"
+                                    android:progressTint="#FFCC01"
+                                    style="?android:attr/ratingBarStyleSmall"/>
+
+
+                                <TextView
+                                    android:id="@+id/timestamp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="date"
+                                    android:textSize="10sp"
+                                    android:layout_marginStart="3dp"
+                                    tools:ignore="SmallSp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <!-- Review Text -->
+                    <TextView
+                        android:id="@+id/textReview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Great place to visit!"
+                        android:paddingTop="8dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Black line -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                android:paddingBottom="20dp"/>
+
             <!-- RecyclerView for posts -->
             <androidx.recyclerview.widget.RecyclerView
+                android:paddingTop="10dp"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
