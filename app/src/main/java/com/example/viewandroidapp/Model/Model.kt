@@ -11,6 +11,7 @@ class Model private constructor() {
     private val database = AppLocalDb.db
     private var executor = Executors.newSingleThreadExecutor()
     private var mainHandler = HandlerCompat.createAsync(Looper.getMainLooper())
+    private var firebase = FireBaseModel()
 
     companion object {
         val instance: Model = Model()
@@ -18,14 +19,20 @@ class Model private constructor() {
 
     //region User functions using ROOM
 
-    fun getAllUsers(callback: (List<User>) -> Unit){
-        executor.execute{
-            val users = database.userDao().getAll()
-            mainHandler.post{
-                callback(users)
+    fun refreshUserByEmail(email: String, callback: (User) -> Unit) {
+        val lastUpdated: Long = User.lastUpdated
+        firebase.getUserByEmail(email, lastUpdated) { user ->
+            executor.execute {
+                database.userDao().insertUser(user)
+                User.lastUpdated = user.lastUpdateTime ?: System.currentTimeMillis()
+                val userByEmail = database.userDao().getUserByEmail(email)
+                mainHandler.post {
+                    callback(userByEmail)
+                }
             }
         }
     }
+
 
     fun insertUser(user: User ,callback: () -> Unit){
         executor.execute{
@@ -36,42 +43,7 @@ class Model private constructor() {
         }
     }
 
-    fun getUserName(email: String ,callback: (String) -> Unit){
-        executor.execute{
-            val userName = database.userDao().getUserName(email)
-            mainHandler.post{
-                callback(userName)
-            }
-        }
-    }
 
-
-    fun getUserPassword(email: String ,callback: (String) -> Unit){
-        executor.execute{
-            val userPassword = database.userDao().getUserPassword(email)
-            mainHandler.post{
-                callback(userPassword)
-            }
-        }
-    }
-
-    fun getProfileImage(email: String ,callback: (String) -> Unit){
-        executor.execute{
-            val profileImage = database.userDao().getProfileImage(email)
-            mainHandler.post{
-                callback(profileImage)
-            }
-        }
-    }
-
-    fun getUserByEmail(email: String ,callback: (User) -> Unit){
-        executor.execute{
-            val user = database.userDao().getUserByEmail(email)
-            mainHandler.post{
-                callback(user)
-            }
-        }
-    }
 
     fun updateUser (user: User ,callback: () -> Unit){
         executor.execute{
@@ -83,36 +55,55 @@ class Model private constructor() {
     }
 
 
-    fun deleteUser (user: User ,callback: () -> Unit){
-        executor.execute{
-            database.userDao().deleteUser(user)
-            mainHandler.post{
-                callback()
-            }
-        }
-    }
-
-    fun deleteUserByEmail (email: String ,callback: () -> Unit){
-        executor.execute{
-            database.userDao().deleteUserByEmail(email)
-            mainHandler.post{
-                callback()
-            }
-        }
-    }
-
     // endregion
 
     //region Post functions using ROOM
 
-    fun getAllPosts(callback: (List<Post>) -> Unit){
-        executor.execute{
-            val posts = database.postDao().getAllPosts()
-            mainHandler.post{
-                callback(posts)
-            }
+    fun refreshPostsByLocation(location: String, callback: (List<Post>) -> Unit) {
+        val lastUpdated: Long = Post.lastUpdated
+        firebase.getPostsByLocation(location, lastUpdated) { posts ->
+            executor.execute {
+                var time = lastUpdated
+                for (post in posts) {
+                    database.postDao().insertPost(post)
+                    post.lastUpdateTime?.let {
+                        if (time < it)
+                            time = post.lastUpdateTime ?: System.currentTimeMillis()
+                    }
+
+                    }
+                Post.lastUpdated = time
+                val postsByLocation = database.postDao().getPostsByLocation(location)
+                mainHandler.post {
+                    callback(postsByLocation)
+                    }
+                }
         }
     }
+
+
+    fun getPostsByOwnerEmail(email: String ,callback: (List<Post>) -> Unit){
+        val lastUpdated: Long = Post.lastUpdated
+        firebase.getPostsByUserEmail(email, lastUpdated) { posts ->
+            executor.execute {
+                var time = lastUpdated
+                for (post in posts) {
+                    database.postDao().insertPost(post)
+                    post.lastUpdateTime?.let {
+                        if (time < it)
+                            time = post.lastUpdateTime ?: System.currentTimeMillis()
+                    }
+                }
+                Post.lastUpdated = time
+                val postsByOwnerEmail = database.postDao().getPostsByOwnerEmail(email)
+                mainHandler.post {
+                    callback(postsByOwnerEmail)
+                }
+            }
+        }
+
+    }
+
 
     fun getPostById(id: Long ,callback: (Post) -> Unit){
         executor.execute{
@@ -123,23 +114,6 @@ class Model private constructor() {
         }
     }
 
-    fun getLocationByPostId(id: Long ,callback: (String) -> Unit){
-        executor.execute{
-            val location = database.postDao().getLocationByPostId(id)
-            mainHandler.post{
-                callback(location)
-            }
-        }
-    }
-
-    fun getOldestPosts(callback: (List<Post>) -> Unit){
-        executor.execute{
-            val posts = database.postDao().getOldestPosts()
-            mainHandler.post{
-                callback(posts)
-            }
-        }
-    }
 
     fun getLatestPosts(callback: (List<Post>) -> Unit){
         executor.execute{
@@ -150,14 +124,7 @@ class Model private constructor() {
         }
     }
 
-    fun getPostsByOwnerEmail(email: String ,callback: (List<Post>) -> Unit){
-        executor.execute{
-            val posts = database.postDao().getPostsByOwnerEmail(email)
-            mainHandler.post{
-                callback(posts)
-            }
-        }
-    }
+
 
     fun getCountByOwnerEmail(email: String ,callback: (Int) -> Unit){
         executor.execute{
@@ -195,41 +162,6 @@ class Model private constructor() {
         }
     }
 
-    fun updatePostDescription(newDescription: String, id: Long ,callback: () -> Unit){
-        executor.execute{
-            database.postDao().updatePostDescription(id, newDescription)
-            mainHandler.post{
-                callback()
-            }
-        }
-    }
-
-    fun updatePostPhoto(id: Long , newPhotoURL: String ,callback: () -> Unit){
-        executor.execute{
-            database.postDao().updatePostPhoto(id, newPhotoURL)
-            mainHandler.post{
-                callback()
-            }
-        }
-    }
-
-    fun updatePostDescriptionAndPhoto(id: Long, newPhotoURL: String, newDescription: String ,callback: () -> Unit){
-        executor.execute{
-            database.postDao().updatePostDescriptionAndPhoto(id, newDescription, newPhotoURL)
-            mainHandler.post{
-                callback()
-            }
-        }
-    }
-
-    fun updatePostLocation(id: Long, newlocation: String, callback: () -> Unit){
-        executor.execute{
-            database.postDao().updatePostLocation(id, newlocation)
-            mainHandler.post{
-                callback()
-            }
-        }
-    }
 
     fun deletePostById(id: Long,callback: () -> Unit){
         executor.execute{
