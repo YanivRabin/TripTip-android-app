@@ -47,20 +47,4 @@ class CreatePostActivity : AppCompatActivity()  {
         intent.putExtra("context", "create")
         startForResult.launch(intent)
     }
-//    fun onAddLocationClick(view: View) {
-//        // Create an intent to start the SearchActivity
-//        val intent = Intent(this, SearchActivity::class.java)
-//        // Add an extra parameter to indicate the context (Search or Create)
-//        intent.putExtra("context", "create")
-//        startActivityForResult(intent, REQUEST_SELECT_COUNTRY)
-//    }
-//
-//    @Deprecated("Deprecated in Java")
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == REQUEST_SELECT_COUNTRY && resultCode == Activity.RESULT_OK) {
-//            val selectedCountry = data?.getStringExtra("countryName")
-//            locationTextView.text = selectedCountry
-//        }
-//    }
 }
