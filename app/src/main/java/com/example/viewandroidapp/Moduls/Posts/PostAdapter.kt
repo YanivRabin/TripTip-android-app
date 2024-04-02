@@ -36,7 +36,7 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
         holder.timestamp.text = post.insertionTime
         holder.postDescription.text = post.description
         holder.postImage.setImageResource(post.photo)
-
+        //TODO change
         // Handle edit button click
         holder.editButton.setOnClickListener {
             val editPost = posts[position]

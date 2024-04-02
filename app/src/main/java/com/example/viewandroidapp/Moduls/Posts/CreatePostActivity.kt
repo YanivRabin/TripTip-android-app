@@ -5,18 +5,30 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.viewandroidapp.Model.Model
+import com.example.viewandroidapp.Model.Post
+import com.example.viewandroidapp.Moduls.Users.ProfileActivity
 import com.example.viewandroidapp.R
 import com.example.viewandroidapp.SearchActivity
+import com.google.firebase.firestore.ServerTimestamp
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class CreatePostActivity : AppCompatActivity()  {
 
     private lateinit var nameTextView: TextView
     private lateinit var locationTextView: TextView
+    private lateinit var postDescription: TextView
+    private var model = Model.instance
 
-    companion object {
-        private const val REQUEST_SELECT_COUNTRY = 100
-    }
+    private val ownerEmail: String = ""
+    private val ownerName: String = ""
+    private val ownerImage: Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,37 +36,59 @@ class CreatePostActivity : AppCompatActivity()  {
         // Initialize the TextView
         nameTextView = findViewById(R.id.name)
         locationTextView = findViewById(R.id.location)
-
+        postDescription = findViewById(R.id.postDescription)
     }
 
     fun onIconCloseClick(view: View) {
         finish()
     }
     fun onIconCheckClick(view: View) {
-        // implement change in the database
-    }
+        // Get the text from the EditText fields
+        val name = nameTextView.text.toString()
+        val description = postDescription.text.toString()
+        val location = locationTextView.text.toString()
 
-    fun changePostPicture(view: View) {
-        // change picture on the edit but only change the picture in the database if pressed check
+        // Create a new Post object
+        val post = Post(
+            ownerEmail = intent.getStringExtra("ownerEmail")!!,
+            ownerName = intent.getStringExtra("ownerName")!!,
+            ownerImage = intent.getIntExtra("ownerImage", 0),
+            description = description,
+            photo = 0, // TODO Add photo
+            location = location,
+            insertionTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
+                Date()
+            ),
+            lastUpdateTime = System.currentTimeMillis()
+        )
+
+        // Pass the post to the ViewModel or save it to the database
+        // For example:
+        model.savePost(post, callback = {
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // Clear back stack
+            startActivity(intent)
+            finish()
+        })
     }
 
     fun onAddPhotoClick(view: View) {
-
     }
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val selectedCountry = data?.getStringExtra("countryName")
+                locationTextView.text = selectedCountry
+            }
+        }
+
     fun onAddLocationClick(view: View) {
         // Create an intent to start the SearchActivity
         val intent = Intent(this, SearchActivity::class.java)
         // Add an extra parameter to indicate the context (Search or Create)
         intent.putExtra("context", "create")
-        startActivityForResult(intent, REQUEST_SELECT_COUNTRY)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_SELECT_COUNTRY && resultCode == Activity.RESULT_OK) {
-            val selectedCountry = data?.getStringExtra("countryName")
-            locationTextView.text = selectedCountry
-        }
+        startForResult.launch(intent)
     }
 }

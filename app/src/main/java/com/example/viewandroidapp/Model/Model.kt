@@ -20,6 +20,15 @@ class Model private constructor() {
 
     //region User functions using ROOM
 
+    fun getUserByEmail(email: String, callback: (User) -> Unit) {
+        executor.execute() {
+            val user = database.userDao().getUserByEmail(email)
+            mainHandler.post {
+                callback(user)
+            }
+        }
+    }
+
     fun refreshUserByEmail(email: String, callback: (User) -> Unit) {
         val lastUpdated: Long = User.lastUpdated
         firebase.getUserByEmail(email, lastUpdated) { user ->
@@ -35,16 +44,12 @@ class Model private constructor() {
     }
 
 
-    fun insertUser(user: User ,callback: () -> Unit){
+    fun insertUser(user: User){
+        firebase.saveUser(user)
         executor.execute{
             database.userDao().insertUser(user)
-            mainHandler.post{
-                callback()
-            }
         }
     }
-
-
 
     fun updateUser (user: User ,callback: () -> Unit){
         executor.execute{

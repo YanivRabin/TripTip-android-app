@@ -193,7 +193,7 @@ class FireBaseModel {
 
         postsCollection.add(postData)
             .addOnSuccessListener { documentReference ->
-                Log.d("FireBaseModel", "Post added with ID: ${documentReference.id}")
+                Log.d("FireBaseModel save post", "Post added with ID: ${documentReference.id}")
                 onSuccess()
             }
             .addOnFailureListener { e ->

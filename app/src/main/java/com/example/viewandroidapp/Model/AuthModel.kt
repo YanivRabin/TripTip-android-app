@@ -6,16 +6,19 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.example.viewandroidapp.Model.FireBaseModel
+import com.example.viewandroidapp.Model.Model
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AuthModel(private val context: Context) {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val model = Model.instance
 
     fun signIn(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+
                     // Sign-in successful, navigate to the home page
                     val intent = Intent(context, HomeActivity::class.java)
                     intent.flags =
@@ -44,9 +47,11 @@ class AuthModel(private val context: Context) {
                         profileImage = "", // Set profile image as needed
                         token = "" // Set token as needed
                     )
+                    // save user in firebase and room
+                    model.insertUser(user)
 
-                    val fireBaseModel = FireBaseModel()
-                    fireBaseModel.saveUser(user) // Call saveUser function to save the user data to Firestore
+                    /*val fireBaseModel = FireBaseModel()
+                    fireBaseModel.saveUser(user) // Call saveUser function to save the user data to Firestore*/
 
                     // Navigate to the home page
                     val intent = Intent(context, HomeActivity::class.java)

@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.example.viewandroidapp.Model.FireBaseModel
+import com.example.viewandroidapp.Model.Model
 import com.example.viewandroidapp.Moduls.Posts.PostsActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -18,12 +21,16 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
 
 class HomeActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private lateinit var myMap : GoogleMap
     private lateinit var lastLocation : Location
     private lateinit var fusedLocationClient : FusedLocationProviderClient
+    private lateinit var model: Model
+    private lateinit var auth: FirebaseAuth
+
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
@@ -32,6 +39,10 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        model = Model.instance
+        auth = FirebaseAuth.getInstance()
+        fetchAndDisplayUserName()
 
         // google maps
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -44,6 +55,27 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val createPostButton: ImageButton = findViewById(R.id.createPostButton)
         val profileButton: ImageButton = findViewById(R.id.profileButton)
         NavUtil.setupActivityButtons(this, homeButton, searchButton, createPostButton, profileButton)
+    }
+
+    private fun fetchAndDisplayUserName() {
+        // Get the currently logged-in user
+        val currentUser = auth.currentUser
+
+        // Check if user is signed in (not null)
+        currentUser?.let { user ->
+            // Get the email of the logged-in user
+            val userEmail = user.email
+            // Fetch user data from Firestore using the logged-in user's email
+            if (userEmail != null) {
+                model.getUserByEmail(userEmail, callback = {
+                    // User found, display the user's name
+                    val user = it
+                    intent.putExtra("ownerEmail", user.email)
+                    intent.putExtra("ownerName", user.name)
+                    intent.putExtra("ownerImage", user.profileImage)
+                })
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
