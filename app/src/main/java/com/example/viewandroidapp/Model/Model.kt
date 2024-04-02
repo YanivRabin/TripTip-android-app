@@ -2,6 +2,7 @@ package com.example.viewandroidapp.Model
 
 import android.app.appsearch.BatchResultCallback
 import android.os.Looper
+import android.util.Log
 import androidx.core.os.HandlerCompat
 import androidx.lifecycle.LiveData
 import com.example.viewandroidapp.dao.AppLocalDb
@@ -134,6 +135,7 @@ class Model private constructor() {
     }
 
     fun savePost(post: Post, callback: () -> Unit) {
+        Log.d("FireBaseModel save post", "Saving post: $post")
         firebase.savePost(post, callback){
             executor.execute {
                 database.postDao().insertPost(post)

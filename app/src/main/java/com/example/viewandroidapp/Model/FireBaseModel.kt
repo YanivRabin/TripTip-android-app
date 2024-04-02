@@ -182,13 +182,18 @@ class FireBaseModel {
     }
 
     fun savePost(post: Post, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        Log.d("FireBaseModel save post", "Saving post: $post")
         val postsCollection = db.collection(POSTS_COLLECTION_PATH)
         val postData = hashMapOf(
+            "postId" to post.id,
             "ownerEmail" to post.ownerEmail,
+            "ownerName" to post.ownerName,
+            "ownerImage" to post.ownerImage,
             "description" to post.description,
             "photo" to post.photo,
             "location" to post.location,
-            "insertionTime" to post.insertionTime
+            "insertionTime" to post.insertionTime,
+            "lastUpdateTime" to post.lastUpdateTime
         )
 
         postsCollection.add(postData)
@@ -197,7 +202,7 @@ class FireBaseModel {
                 onSuccess()
             }
             .addOnFailureListener { e ->
-                Log.e("FireBaseModel", "Error adding post", e)
+                Log.e("FireBaseModel save post", "Error adding post", e)
                 onFailure(e)
             }
     }

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
+import android.content.Context
 
 class HomeActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -70,9 +72,13 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 model.getUserByEmail(userEmail, callback = {
                     // User found, display the user's name
                     val user = it
-                    intent.putExtra("ownerEmail", user.email)
-                    intent.putExtra("ownerName", user.name)
-                    intent.putExtra("ownerImage", user.profileImage)
+                    Log.d("HomeActivity", "User: $user")
+                    val sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("ownerEmail", user.email)
+                    editor.putString("ownerName", user.name)
+                    editor.putInt("ownerImage", 0)
+                    editor.apply()
                 })
             }
         }

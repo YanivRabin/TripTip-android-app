@@ -3,6 +3,7 @@ package com.example.viewandroidapp.Moduls.Posts
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -31,6 +32,7 @@ class CreatePostActivity : AppCompatActivity()  {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("CreatePostActivity onCreate", "User: ${intent.getStringExtra("ownerEmail")}")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_post)
         // Initialize the TextView
@@ -43,6 +45,8 @@ class CreatePostActivity : AppCompatActivity()  {
         finish()
     }
     fun onIconCheckClick(view: View) {
+        Log.d("create post","email" + getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!)
+
         // Get the text from the EditText fields
         val name = nameTextView.text.toString()
         val description = postDescription.text.toString()
@@ -50,9 +54,9 @@ class CreatePostActivity : AppCompatActivity()  {
 
         // Create a new Post object
         val post = Post(
-            ownerEmail = intent.getStringExtra("ownerEmail")!!,
-            ownerName = intent.getStringExtra("ownerName")!!,
-            ownerImage = intent.getIntExtra("ownerImage", 0),
+            ownerEmail = getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!,
+            ownerName = getSharedPreferences("user", MODE_PRIVATE).getString("ownerName", "")!!,
+            ownerImage = getSharedPreferences("user", MODE_PRIVATE).getInt("ownerImage", 0),
             description = description,
             photo = 0, // TODO Add photo
             location = location,
@@ -62,9 +66,14 @@ class CreatePostActivity : AppCompatActivity()  {
             lastUpdateTime = System.currentTimeMillis()
         )
 
+
+        Log.d("create post internal", "onIconCheckClick")
+
         // Pass the post to the ViewModel or save it to the database
         // For example:
+        Log.d("FireBaseModel save post", "Saving post: $post")
         model.savePost(post, callback = {
+            Log.d("FireBaseModel save post", "Saving post: $post")
             val intent = Intent(this, ProfileActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // Clear back stack
             startActivity(intent)
