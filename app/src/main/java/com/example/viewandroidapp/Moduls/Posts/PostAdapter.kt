@@ -1,4 +1,4 @@
-package com.example.viewandroidapp
+package com.example.viewandroidapp.Moduls.Posts
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,7 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.example.viewandroidapp.Model.Post
+import com.example.viewandroidapp.R
+
 
 class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
@@ -17,7 +21,6 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
         val timestamp : TextView = itemView.findViewById(R.id.timestamp)
         val postDescription : TextView = itemView.findViewById(R.id.postDescription)
         val postImage : ImageView = itemView.findViewById(R.id.postImage)
-
         val editButton: ImageButton = itemView.findViewById(R.id.editButton)
     }
 
@@ -28,21 +31,21 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
-        holder.profilePicture.setImageResource(post.profilePicture)
-        holder.nameAndLocation.text = post.nameAndLocation
-        holder.timestamp.text = post.timestamp
-        holder.postDescription.text = post.postDescription
-        holder.postImage.setImageResource(post.postImage)
+        holder.profilePicture.setImageResource(post.ownerImage)
+        holder.nameAndLocation.text = "${post.ownerName} at ${post.location}"
+        holder.timestamp.text = post.insertionTime
+        holder.postDescription.text = post.description
+        holder.postImage.setImageResource(post.photo)
 
         // Handle edit button click
         holder.editButton.setOnClickListener {
             val editPost = posts[position]
             val intent = Intent(holder.itemView.context, EditPostActivity::class.java).apply {
                 // Pass necessary data to EditPostActivity
-                putExtra("profilePicture", editPost.profilePicture)
-                putExtra("nameAndLocation", editPost.nameAndLocation)
-                putExtra("postDescription", editPost.postDescription)
-                putExtra("postImage", editPost.postImage)
+                putExtra("profilePicture", editPost.ownerImage)
+                putExtra("nameAndLocation", "${post.ownerName} at ${post.location}")
+                putExtra("postDescription", editPost.description)
+                putExtra("postImage", editPost.photo)
             }
             holder.itemView.context.startActivity(intent)
         }

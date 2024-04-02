@@ -3,6 +3,7 @@ package com.example.viewandroidapp.Model
 import android.app.appsearch.BatchResultCallback
 import android.os.Looper
 import androidx.core.os.HandlerCompat
+import androidx.lifecycle.LiveData
 import com.example.viewandroidapp.dao.AppLocalDb
 import java.util.concurrent.Executors
 
@@ -59,7 +60,12 @@ class Model private constructor() {
 
     //region Post functions using ROOM
 
-    fun refreshPostsByLocation(location: String, callback: (List<Post>) -> Unit) {
+    fun getAllPostsByLocation(location: String): LiveData<List<Post>> {
+        refreshPostsByLocation(location)
+        return database.postDao().getPostsByLocation(location)
+    }
+
+    fun refreshPostsByLocation(location: String) {
         val lastUpdated: Long = Post.lastUpdated
         firebase.getPostsByLocation(location, lastUpdated) { posts ->
             executor.execute {
@@ -73,10 +79,10 @@ class Model private constructor() {
 
                     }
                 Post.lastUpdated = time
-                val postsByLocation = database.postDao().getPostsByLocation(location)
+/*                val postsByLocation = database.postDao().getPostsByLocation(location)
                 mainHandler.post {
                     callback(postsByLocation)
-                    }
+                    }*/
                 }
         }
     }
@@ -118,24 +124,6 @@ class Model private constructor() {
             val countOfPosts = database.postDao().getCountByOwnerEmail(email)
             mainHandler.post{
                 callback(countOfPosts)
-            }
-        }
-    }
-
-    fun getLatestPostsByLocation(location: String, limit: Int, callback: (List<Post>) -> Unit){
-        executor.execute{
-            val posts = database.postDao().getLatestPostsByLocation(location, limit)
-            mainHandler.post{
-                callback(posts)
-            }
-        }
-    }
-
-    fun getLatestPostsByOwnerEmail(email: String, limit: Int, callback: (List<Post>) -> Unit){
-        executor.execute{
-            val posts = database.postDao().getLatestPostsByOwnerEmail(email)
-            mainHandler.post{
-                callback(posts)
             }
         }
     }

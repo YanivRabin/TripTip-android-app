@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layoutDirection="ltr"
-    tools:context=".ProfileSettingsActivity">
+    tools:context=".Moduls.Users.ProfileSettingsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

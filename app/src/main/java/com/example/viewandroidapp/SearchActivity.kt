@@ -14,6 +14,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.core.app.ActivityCompat
+import com.example.viewandroidapp.Moduls.Posts.PostsActivity
 import com.example.viewandroidapp.databinding.ActivitySearchBinding
 import com.google.android.gms.location.LocationServices
 import java.io.IOException

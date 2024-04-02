@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PostsActivity"
+    tools:context=".Moduls.Posts.PostsActivity"
     android:layoutDirection="ltr">
 
     <androidx.core.widget.NestedScrollView

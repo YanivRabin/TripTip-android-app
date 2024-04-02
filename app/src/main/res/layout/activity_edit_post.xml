@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     android:orientation="vertical"
-    tools:context=".EditPostActivity"
+    tools:context=".Moduls.Posts.EditPostActivity"
     tools:ignore="MissingDefaultResource">
 
     <RelativeLayout

@@ -3,6 +3,8 @@ package com.example.viewandroidapp
 import android.content.Context
 import android.content.Intent
 import android.widget.ImageButton
+import com.example.viewandroidapp.Moduls.Posts.CreatePostActivity
+import com.example.viewandroidapp.Moduls.Users.ProfileActivity
 
 object NavUtil {
     fun setupActivityButtons(context: Context,

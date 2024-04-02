@@ -1,61 +1,59 @@
-package com.example.viewandroidapp
+package com.example.viewandroidapp.Moduls.Posts
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.viewandroidapp.Model.Model
+import com.example.viewandroidapp.NavUtil
+import com.example.viewandroidapp.R
 import com.example.viewandroidapp.databinding.ActivityPostsBinding
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+
 
 
 class PostsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPostsBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var viewModel: PostViewModel
+    private var model = Model.instance
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPostsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this)[PostViewModel::class.java]
 
         // Retrieve country name passed from HomeActivity and change the text
-        val countryName = intent.getStringExtra("countryName")
-        binding.countryNameTextView.text = countryName
+        val location = intent.getStringExtra("countryName")
+        binding.countryNameTextView.text = location
+        val posts = model.getAllPostsByLocation(location!!)
+
 
         // Setup RecyclerView for posts
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = PostAdapter(generatePosts(countryName))
+        viewModel.posts?.observe(this) {
+            recyclerView.adapter = PostAdapter(it)
+        }
 
         // Setup navigation buttons
         val homeButton: ImageButton = findViewById(R.id.homeButton)
         val searchButton: ImageButton = findViewById(R.id.searchButton)
         val createPostButton: ImageButton = findViewById(R.id.createPostButton)
         val profileButton: ImageButton = findViewById(R.id.profileButton)
-        NavUtil.setupActivityButtons(this, homeButton, searchButton, createPostButton, profileButton)
-    }
-
-    // Generate dummy list of posts (replace with dataBase)
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun generatePosts(country: String?): ArrayList<Post> {
-        val posts = arrayListOf<Post>()
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val currentDate = LocalDateTime.now().format(formatter)
-        for (i in 1..5) {
-            posts.add(Post(
-                R.drawable.profile_picture,
-                "Yaniv is at $country",
-                currentDate,
-                "This is my flight to $country",
-                R.drawable.background
-            ))
-        }
-        return posts
+        NavUtil.setupActivityButtons(
+            this,
+            homeButton,
+            searchButton,
+            createPostButton,
+            profileButton
+        )
     }
 }

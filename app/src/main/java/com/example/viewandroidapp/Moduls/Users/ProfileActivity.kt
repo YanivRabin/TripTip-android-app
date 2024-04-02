@@ -1,4 +1,4 @@
-package com.example.viewandroidapp
+package com.example.viewandroidapp.Moduls.Users
 
 import android.content.Intent
 import android.os.Build
@@ -10,10 +10,12 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.viewandroidapp.Model.FireBaseModel
+import com.example.viewandroidapp.Model.Model
+import com.example.viewandroidapp.Moduls.Posts.PostAdapter
+import com.example.viewandroidapp.NavUtil
+import com.example.viewandroidapp.R
 import com.example.viewandroidapp.databinding.ActivityProfileBinding
 import com.google.firebase.auth.FirebaseAuth
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -21,6 +23,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var fireBaseModel: FireBaseModel
     private lateinit var auth: FirebaseAuth
+    private var model = Model.instance
+    private var currentOwnerEmail = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +40,20 @@ class ProfileActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = PostAdapter(generatePosts())
+        getPosts(currentOwnerEmail)
 
         // Setup navigation buttons
         val homeButton: ImageButton = findViewById(R.id.homeButton)
         val searchButton: ImageButton = findViewById(R.id.searchButton)
         val createPostButton: ImageButton = findViewById(R.id.createPostButton)
         val profileButton: ImageButton = findViewById(R.id.profileButton)
-        NavUtil.setupActivityButtons(this, homeButton, searchButton, createPostButton, profileButton)
+        NavUtil.setupActivityButtons(
+            this,
+            homeButton,
+            searchButton,
+            createPostButton,
+            profileButton
+        )
     }
 
     private fun fetchAndDisplayUserName() {
@@ -54,7 +64,6 @@ class ProfileActivity : AppCompatActivity() {
         currentUser?.let { user ->
             // Get the email of the logged-in user
             val userEmail = user.email
-
             // Fetch user data from Firestore using the logged-in user's email
             if (userEmail != null) {
                 fireBaseModel.getUser(userEmail) { userData ->
@@ -62,6 +71,7 @@ class ProfileActivity : AppCompatActivity() {
                         // User data retrieved successfully
                         // Display the user's name in the UI
                         binding.nameTextView.text = user.name
+                        currentOwnerEmail = user.email
                     } ?: run {
                         // User not found or error occurred
                         // Handle the situation accordingly
@@ -81,20 +91,10 @@ class ProfileActivity : AppCompatActivity() {
 
     // Generate dummy list of posts (replace with dataBase)
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun generatePosts(): ArrayList<Post> {
-        val posts = arrayListOf<Post>()
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val currentDate = LocalDateTime.now().format(formatter)
-        for (i in 1..5) {
-            posts.add(Post(
-                R.drawable.profile_picture,
-                "Yaniv is at location",
-                currentDate,
-                "This is my flight to location",
-                R.drawable.background
-            ))
-        }
-        return posts
+    private fun getPosts(ownerEmail: String?){
+        model.refreshPostsByOwnerEmail(ownerEmail?: "", callback = { posts ->
+            recyclerView.adapter = PostAdapter(posts.sortedBy { it.insertionTime })
+        })
     }
 
     fun onIconSettingsClick(view: View) {

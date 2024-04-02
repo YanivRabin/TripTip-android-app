@@ -25,8 +25,10 @@ data class Post (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val ownerEmail: String,
+    val ownerName: String,
+    val ownerImage: Int,
     val description: String,
-    val photo: String,
+    val photo: Int,
     val location: String,
     val insertionTime: String = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
         Date()),
@@ -34,8 +36,8 @@ data class Post (
 
 
     // constructor
-    constructor(ownerEmail: String, description: String, photo: String, location: String) :
-            this(0, ownerEmail, description, photo, location, SimpleDateFormat(
+    constructor(ownerEmail: String, ownerName: String, ownerImage: Int, description: String, photo: Int, location: String) :
+            this(0, ownerEmail, ownerName, ownerImage, description, photo, location, SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()),
                 System.currentTimeMillis())
     companion object {

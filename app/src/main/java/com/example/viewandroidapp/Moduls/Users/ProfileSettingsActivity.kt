@@ -1,4 +1,4 @@
-package com.example.viewandroidapp
+package com.example.viewandroidapp.Moduls.Users
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -11,7 +11,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.viewandroidapp.MainActivity
 import com.example.viewandroidapp.Model.FireBaseModel
+import com.example.viewandroidapp.R
 import com.example.viewandroidapp.databinding.ActivityProfileSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import com.example.viewandroidapp.Moduls.Users.RegisterActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var authModel: AuthModel

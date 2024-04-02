@@ -1,5 +1,6 @@
 package com.example.viewandroidapp.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import com.example.viewandroidapp.Model.Post
 import androidx.room.Insert
@@ -18,9 +19,9 @@ interface PostDao {
     @Query("SELECT COUNT(*) FROM Post WHERE ownerEmail = :ownerEmail")
     fun getCountByOwnerEmail(ownerEmail: String): Int
     @Query("SELECT * FROM Post WHERE location = :location")
-    fun getPostsByLocation(location: String): List<Post>
+    fun getPostsByLocation(location: String): LiveData<List<Post>>
     @Query("SELECT * FROM Post WHERE location = :location ORDER BY insertionTime DESC")
-    fun getLatestPostsByLocation(location: String, limit: Int): List<Post>
+    fun getLatestPostsByLocation(location: String): List<Post>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPost(post: Post)
     @Update(onConflict = OnConflictStrategy.REPLACE)

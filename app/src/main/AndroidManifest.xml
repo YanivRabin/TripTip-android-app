@@ -25,14 +25,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".Moduls.Users.RegisterActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".ProfileSettingsActivity" />
-        <activity android:name=".EditPostActivity" />
-        <activity android:name=".PostsActivity" />
-        <activity android:name=".CreatePostActivity" />
+        <activity android:name=".Moduls.Users.ProfileActivity" />
+        <activity android:name=".Moduls.Users.ProfileSettingsActivity" />
+        <activity android:name=".Moduls.Posts.EditPostActivity" />
+        <activity android:name=".Moduls.Posts.PostsActivity" />
+        <activity android:name=".Moduls.Posts.CreatePostActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${GOOGLE_MAPS_KEY}" />
