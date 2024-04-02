@@ -82,7 +82,7 @@ class Model private constructor() {
     }
 
 
-    fun getPostsByOwnerEmail(email: String ,callback: (List<Post>) -> Unit){
+    fun refreshPostsByOwnerEmail(email: String ,callback: (List<Post>) -> Unit){
         val lastUpdated: Long = Post.lastUpdated
         firebase.getPostsByUserEmail(email, lastUpdated) { posts ->
             executor.execute {
@@ -104,7 +104,6 @@ class Model private constructor() {
 
     }
 
-
     fun getPostById(id: Long ,callback: (Post) -> Unit){
         executor.execute{
             val post = database.postDao().getPostById(id)
@@ -113,18 +112,6 @@ class Model private constructor() {
             }
         }
     }
-
-
-    fun getLatestPosts(callback: (List<Post>) -> Unit){
-        executor.execute{
-            val posts = database.postDao().getLatestPosts()
-            mainHandler.post{
-                callback(posts)
-            }
-        }
-    }
-
-
 
     fun getCountByOwnerEmail(email: String ,callback: (Int) -> Unit){
         executor.execute{
@@ -135,39 +122,55 @@ class Model private constructor() {
         }
     }
 
-    fun getPostsByInsertionTime(startTime: String, endTime: String, callback: (List<Post>) -> Unit){
+    fun getLatestPostsByLocation(location: String, limit: Int, callback: (List<Post>) -> Unit){
         executor.execute{
-            val posts = database.postDao().getPostsByInsertionTime(startTime, endTime)
+            val posts = database.postDao().getLatestPostsByLocation(location, limit)
             mainHandler.post{
                 callback(posts)
             }
         }
     }
 
-    fun insertPost(post: Post ,callback: () -> Unit){
+    fun getLatestPostsByOwnerEmail(email: String, limit: Int, callback: (List<Post>) -> Unit){
         executor.execute{
-            database.postDao().insertPost(post)
+            val posts = database.postDao().getLatestPostsByOwnerEmail(email)
             mainHandler.post{
-                callback()
+                callback(posts)
+            }
+        }
+    }
+
+    fun savePost(post: Post, callback: () -> Unit) {
+        firebase.savePost(post, callback){
+            executor.execute {
+                database.postDao().insertPost(post)
+                mainHandler.post {
+                    callback()
+                }
             }
         }
     }
 
     fun updatePost(post: Post, callback: () -> Unit){
-        executor.execute{
-            database.postDao().updatePost(post)
-            mainHandler.post{
-                callback()
+        firebase.updatePost(post, callback){
+            executor.execute{
+                database.postDao().updatePost(post)
+                mainHandler.post{
+                    callback()
+                }
             }
         }
     }
 
 
+
     fun deletePostById(id: Long,callback: () -> Unit){
-        executor.execute{
-            database.postDao().deletePostById(id)
-            mainHandler.post{
-                callback()
+        firebase.deletePost(id, callback){
+            executor.execute{
+                database.postDao().deletePostById(id)
+                mainHandler.post{
+                    callback()
+                }
             }
         }
     }
@@ -177,54 +180,54 @@ class Model private constructor() {
     //endregion
 
     //region Comment functions using ROOM
-    fun getAllComments(callback: (List<Comment>) -> Unit){
-        executor.execute{
-            val comments = database.commentDao().getAllComments()
-            mainHandler.post{
-                callback(comments)
+
+    fun getCommentsByPostId(postId: Long, callback: (List<Comment>) -> Unit) {
+        val lastUpdated: Long = Comment.lastUpdated
+        firebase.getCommentsByPostId(postId, lastUpdated) { comments ->
+            executor.execute {
+                var time = lastUpdated
+                for (comment in comments) {
+                    database.commentDao().insertComment(comment)
+                    comment.lastUpdateTime?.let {
+                        if (time < it)
+                            time = comment.lastUpdateTime ?: System.currentTimeMillis()
+                    }
+                }
+                Comment.lastUpdated = time
+                val commentsByPostId = database.commentDao().getCommentsByPostId(postId)
+                mainHandler.post {
+                    callback(commentsByPostId)
+                }
             }
         }
+
     }
 
     fun getCommentsByOwnerEmail(ownerEmail: String, callback: (List<Comment>) -> Unit) {
-        executor.execute {
-            val comments = database.commentDao().getCommentsByOwnerEmail(ownerEmail)
-            mainHandler.post {
-                callback(comments)
+        val lastUpdated: Long = Comment.lastUpdated
+        firebase.getCommentsByOwnerEmail(ownerEmail, lastUpdated) { comments ->
+            executor.execute {
+                var time = lastUpdated
+                for (comment in comments) {
+                    database.commentDao().insertComment(comment)
+                    comment.lastUpdateTime?.let {
+                        if (time < it)
+                            time = comment.lastUpdateTime ?: System.currentTimeMillis()
+                    }
+                }
+                Comment.lastUpdated = time
+                val commentsByOwnerEmail = database.commentDao().getCommentsByOwnerEmail(ownerEmail)
+                mainHandler.post {
+                    callback(commentsByOwnerEmail)
+                }
             }
         }
     }
 
-    fun getCommentCountByOwnerEmail(ownerEmail: String, callback: (Int) -> Unit) {
-        executor.execute {
-            val count = database.commentDao().getCommentCountByOwnerEmail(ownerEmail)
-            mainHandler.post {
-                callback(count)
-            }
-        }
-    }
 
     fun getLatestComments(limit: Int, callback: (List<Comment>) -> Unit) {
         executor.execute {
             val comments = database.commentDao().getLatestComments(limit)
-            mainHandler.post {
-                callback(comments)
-            }
-        }
-    }
-
-    fun getCommentsByIdRange(startId: Long, endId: Long, callback: (List<Comment>) -> Unit) {
-        executor.execute {
-            val comments = database.commentDao().getCommentsByIdRange(startId, endId)
-            mainHandler.post {
-                callback(comments)
-            }
-        }
-    }
-
-    fun getCommentsByInsertionTime(startTime: String, endTime: String, callback: (List<Comment>) -> Unit) {
-        executor.execute {
-            val comments = database.commentDao().getCommentsByInsertionTime(startTime, endTime)
             mainHandler.post {
                 callback(comments)
             }
@@ -241,46 +244,35 @@ class Model private constructor() {
     }
 
     fun insertComment(comment: Comment, callback: () -> Unit) {
-        executor.execute {
-            database.commentDao().insertComment(comment)
-            mainHandler.post {
-                callback()
+        firebase.saveComment(comment, callback) {
+            executor.execute {
+                database.commentDao().insertComment(comment)
+                mainHandler.post {
+                    callback()
+                }
             }
         }
     }
 
     fun updateComment(comment: Comment, callback: () -> Unit) {
-        executor.execute {
-            database.commentDao().updateComment(comment)
-            mainHandler.post {
-                callback()
+        firebase.updateComment(comment, callback) {
+            executor.execute {
+                database.commentDao().updateComment(comment)
+                mainHandler.post {
+                    callback()
+                }
             }
         }
     }
 
-    fun updateCommentText(commentId: Long, newComment: String, callback: () -> Unit) {
-        executor.execute {
-            database.commentDao().updateCommentText(commentId, newComment)
-            mainHandler.post {
-                callback()
-            }
-        }
-    }
-
-    fun updateInsertionTime(commentId: Long, newInsertionTime: String, callback: () -> Unit) {
-        executor.execute {
-            database.commentDao().updateInsertionTime(commentId, newInsertionTime)
-            mainHandler.post {
-                callback()
-            }
-        }
-    }
 
     fun deleteCommentById(commentId: Long, callback: () -> Unit) {
-        executor.execute {
-            database.commentDao().deleteCommentById(commentId)
-            mainHandler.post {
-                callback()
+        firebase.deleteComment(commentId, callback) {
+            executor.execute {
+                database.commentDao().deleteCommentById(commentId)
+                mainHandler.post {
+                    callback()
+                }
             }
         }
     }

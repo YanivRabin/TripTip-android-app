@@ -15,9 +15,12 @@ class FireBaseModel {
     companion object {
         const val POSTS_COLLECTION_PATH = "posts"
         const val USERS_COLLECTION_PATH = "users"
+        const val COMMENTS_COLLECTION_PATH = "comments"
     }
 
 
+
+    //region User functions
     fun saveUser(user: User) {
         // Convert User object into a map
         val userData = hashMapOf(
@@ -72,7 +75,7 @@ class FireBaseModel {
     }
 
     //TODO roy check this function
-    fun uploadPhoto(photoUrl: String, type: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+    fun uploadPhoto(photoUrl: Uri, type: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
         // Generate a unique filename for the photo
         val fileName = "${UUID.randomUUID()}.jpg"
 
@@ -86,7 +89,7 @@ class FireBaseModel {
         }
 
         // Get the URI of the photo
-        val photoUri = Uri.parse(photoUrl)
+        val photoUri = Uri.parse(photoUrl.toString())
 
         // Upload the photo to Firebase Storage
         storageRef.putFile(photoUri)
@@ -131,6 +134,7 @@ class FireBaseModel {
             }
     }
 
+    //endregion
 
     //region Posts functions
     fun getPostsByUserEmail(userEmail: String, since: Long, callback: (List<Post>) -> Unit) {
@@ -198,8 +202,8 @@ class FireBaseModel {
             }
     }
 
-    fun deletePost(postId: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        db.collection(POSTS_COLLECTION_PATH).document(postId)
+    fun deletePost(postId: Long, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection(POSTS_COLLECTION_PATH).document(postId.toString())
             .delete()
             .addOnSuccessListener {
                 Log.d("FireBaseModel", "Post deleted successfully")
@@ -233,45 +237,107 @@ class FireBaseModel {
             }
     }
 
-    fun updatePostDescription(postId: String, newDescription: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        db.collection(POSTS_COLLECTION_PATH).document(postId)
-            .update(Post.DESCRIPTION_KEY, newDescription, Post.LAST_UPDATED, System.currentTimeMillis())
-            .addOnSuccessListener {
-                Log.d("FireBaseModel", "Post description updated successfully")
+    //endregion
+
+    //region Comments functions
+
+    fun getCommentsByPostId(postId: Long, since: Long, callback: (List<Comment>) -> Unit) {
+        db.collection(COMMENTS_COLLECTION_PATH).whereGreaterThanOrEqualTo(Comment.LAST_UPDATED, since)
+            .whereEqualTo(Comment.POST_ID_KEY, postId)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val commentsList = mutableListOf<Comment>()
+
+                for (document in querySnapshot.documents) {
+                    val comment = document.toObject(Comment::class.java)
+                    comment?.let {
+                        commentsList.add(it)
+                    }
+                }
+
+                callback(commentsList)
+            }
+            .addOnFailureListener { e ->
+                Log.e("FireBaseModel", "Error getting comments by post ID", e)
+                callback(emptyList())
+            }
+    }
+
+    fun getCommentsByOwnerEmail(ownerEmail: String, since: Long, callback: (List<Comment>) -> Unit) {
+        db.collection(COMMENTS_COLLECTION_PATH).whereGreaterThanOrEqualTo(Comment.LAST_UPDATED, since)
+            .whereEqualTo(Comment.OWNER_EMAIL_KEY, ownerEmail)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val commentsList = mutableListOf<Comment>()
+
+                for (document in querySnapshot.documents) {
+                    val comment = document.toObject(Comment::class.java)
+                    comment?.let {
+                        commentsList.add(it)
+                    }
+                }
+
+                callback(commentsList)
+            }
+            .addOnFailureListener { e ->
+                Log.e("FireBaseModel", "Error getting comments by owner email", e)
+                callback(emptyList())
+            }
+    }
+
+    fun saveComment(comment: Comment, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val commentsCollection = db.collection(COMMENTS_COLLECTION_PATH)
+        val commentData = hashMapOf(
+            "ownerEmail" to comment.ownerEmail,
+            "postId" to comment.postId,
+            "comment" to comment.comment,
+            "insertionTime" to comment.insertionTime
+        )
+
+        commentsCollection.add(commentData)
+            .addOnSuccessListener { documentReference ->
+                Log.d("FireBaseModel", "Comment added with ID: ${documentReference.id}")
                 onSuccess()
             }
             .addOnFailureListener { e ->
-                Log.e("FireBaseModel", "Error updating post description", e)
+                Log.e("FireBaseModel", "Error adding comment", e)
                 onFailure(e)
             }
     }
 
-    fun updatePostLocation(postId: String, newLocation: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        db.collection(POSTS_COLLECTION_PATH).document(postId)
-            .update(Post.LOCATION_KEY, newLocation, Post.LAST_UPDATED, System.currentTimeMillis())
+    fun deleteComment(commentId: Long, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection(COMMENTS_COLLECTION_PATH).document(commentId.toString())
+            .delete()
             .addOnSuccessListener {
-                Log.d("FireBaseModel", "Post location updated successfully")
+                Log.d("FireBaseModel", "Comment deleted successfully")
                 onSuccess()
             }
             .addOnFailureListener { e ->
-                Log.e("FireBaseModel", "Error updating post location", e)
+                Log.e("FireBaseModel", "Error deleting comment", e)
                 onFailure(e)
             }
     }
 
-    fun updatePostPhoto(postId: String, newPhotoUrl: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        db.collection(POSTS_COLLECTION_PATH).document(postId)
-            .update(Post.PHOTO_KEY, newPhotoUrl, Post.LAST_UPDATED, System.currentTimeMillis())
+    fun updateComment(comment: Comment, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val commentsCollection = db.collection(COMMENTS_COLLECTION_PATH)
+        val commentData = hashMapOf(
+            "ownerEmail" to comment.ownerEmail,
+            "postId" to comment.postId,
+            "comment" to comment.comment,
+            "insertionTime" to comment.insertionTime,
+            "lastUpdateTime" to System.currentTimeMillis()
+        )
+
+        commentsCollection.document(comment.id.toString()).set(commentData)
             .addOnSuccessListener {
-                Log.d("FireBaseModel", "Post photo updated successfully")
+                Log.d("FireBaseModel", "Comment updated successfully")
                 onSuccess()
             }
             .addOnFailureListener { e ->
-                Log.e("FireBaseModel", "Error updating post photo", e)
+                Log.e("FireBaseModel", "Error updating comment", e)
                 onFailure(e)
             }
     }
-
 
     //endregion
 

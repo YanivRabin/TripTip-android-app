@@ -80,13 +80,15 @@ class ProfileSettingsActivity : AppCompatActivity() {
                             // Profile picture uploaded successfully
                             // You may want to update UI or show a message here
                                     Log.e("ProfileSettingsActivity", "Profile picture uploaded successfully")
-                        },
-                        onFailure = { exception ->
-                            // Handle failure
-                            // You may want to show an error message or log the exception
-                            Log.e("ProfileSettingsActivity", "Error uploading profile picture: $exception")
                         }
-                    )
+                    ) { exception ->
+                        // Handle failure
+                        // You may want to show an error message or log the exception
+                        Log.e(
+                            "ProfileSettingsActivity",
+                            "Error uploading profile picture: $exception"
+                        )
+                    }
                 }            }
         }
     }

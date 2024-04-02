@@ -11,16 +11,16 @@ import androidx.room.Update
 interface PostDao {
     @Query("SELECT * FROM Post WHERE id = :postId")
     fun getPostById(postId: Long): Post
-    @Query("SELECT * FROM Post ORDER BY insertionTime DESC")
-    fun getLatestPosts(): List<Post>
     @Query("SELECT * FROM Post WHERE ownerEmail = :ownerEmail")
     fun getPostsByOwnerEmail(ownerEmail: String): List<Post>
+    @Query("SELECT * FROM Post WHERE ownerEmail = :ownerEmail ORDER BY insertionTime DESC")
+    fun getLatestPostsByOwnerEmail(ownerEmail: String): List<Post>
     @Query("SELECT COUNT(*) FROM Post WHERE ownerEmail = :ownerEmail")
     fun getCountByOwnerEmail(ownerEmail: String): Int
-    @Query("SELECT * FROM Post WHERE insertionTime BETWEEN :startTime AND :endTime")
-    fun getPostsByInsertionTime(startTime: String, endTime: String): List<Post>
     @Query("SELECT * FROM Post WHERE location = :location")
     fun getPostsByLocation(location: String): List<Post>
+    @Query("SELECT * FROM Post WHERE location = :location ORDER BY insertionTime DESC")
+    fun getLatestPostsByLocation(location: String, limit: Int): List<Post>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPost(post: Post)
     @Update(onConflict = OnConflictStrategy.REPLACE)
