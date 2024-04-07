@@ -18,7 +18,6 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
         val timestamp : TextView = itemView.findViewById(R.id.timestamp)
         val postDescription : TextView = itemView.findViewById(R.id.postDescription)
         val postImage : ImageView = itemView.findViewById(R.id.postImage)
-
         val editButton: ImageButton = itemView.findViewById(R.id.editButton)
     }
 

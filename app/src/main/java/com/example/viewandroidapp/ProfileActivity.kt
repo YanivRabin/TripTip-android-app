@@ -1,5 +1,6 @@
 package com.example.viewandroidapp
 
+import Model.Post
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -32,12 +33,13 @@ class ProfileActivity : AppCompatActivity() {
         fireBaseModel = FireBaseModel() // Initialize FireBaseModel
         auth = FirebaseAuth.getInstance()
         fetchAndDisplayUserData()
+             fetchPosts()
 
         // Setup RecyclerView for posts
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-       // recyclerView.adapter = PostAdapter(generatePosts())
+        recyclerView.adapter = PostAdapter(fetchPosts())
 
         // Setup navigation buttons
         val homeButton: ImageButton = findViewById(R.id.homeButton)
@@ -82,13 +84,9 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-
-    // Generate dummy list of posts (replace with dataBase)
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun fetchPosts() {
+    private fun fetchPosts():List<Post> {
         // Get the currently logged-in user's email
         val currentUserEmail = auth.currentUser?.email
-
         // Check if the user is logged in
         currentUserEmail?.let { userEmail ->
             // Fetch posts from Firestore using the logged-in user's email
@@ -98,6 +96,7 @@ class ProfileActivity : AppCompatActivity() {
                     // Update the RecyclerView adapter with the fetched posts
                     val postAdapter = PostAdapter(posts)
                     recyclerView.adapter = postAdapter
+                    return@getPosts
                 },
                 onFailure = { e ->
                     // Handle failure to fetch posts
@@ -105,8 +104,10 @@ class ProfileActivity : AppCompatActivity() {
                 }
             )
         }
+        return emptyList<Post>()
     }
-
+    @RequiresApi(Build.VERSION_CODES.O)
+    // Generate dummy list of posts (replace with dataBase)
 //    private fun generatePosts(): ArrayList<Post> {
 //        val posts = arrayListOf<Post>()
 //        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
