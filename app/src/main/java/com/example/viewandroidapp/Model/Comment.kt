@@ -28,7 +28,7 @@ import java.util.Locale
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val ownerEmail: String,
-    val postId : Long,
+    val postId : String,
     val comment: String,
     val insertionTime: String = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
         Date()),

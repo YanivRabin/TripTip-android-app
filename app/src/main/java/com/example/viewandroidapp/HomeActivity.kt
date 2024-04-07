@@ -9,8 +9,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.RecyclerView
-import com.example.viewandroidapp.Model.FireBaseModel
 import com.example.viewandroidapp.Model.Model
 import com.example.viewandroidapp.Moduls.Posts.PostsActivity
 import com.google.android.gms.location.FusedLocationProviderClient

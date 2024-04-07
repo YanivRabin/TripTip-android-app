@@ -5,7 +5,10 @@ import android.os.Looper
 import android.util.Log
 import androidx.core.os.HandlerCompat
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.viewandroidapp.Moduls.Posts.PostViewModel
 import com.example.viewandroidapp.dao.AppLocalDb
+import kotlinx.coroutines.CoroutineScope
 import java.util.concurrent.Executors
 
 class Model private constructor() {
@@ -93,9 +96,15 @@ class Model private constructor() {
         }
     }
 
+    suspend fun getAllPostsByOwnerEmail(email: String): List<Post> {
+        refreshPostsByOwnerEmail(email)
+        return database.postDao().getPostsByOwnerEmail(email)
+    }
 
-    fun refreshPostsByOwnerEmail(email: String ,callback: (List<Post>) -> Unit){
+
+    suspend fun refreshPostsByOwnerEmail(email: String){
         val lastUpdated: Long = Post.lastUpdated
+        Log.d("posts", "lastUpdated: $lastUpdated")
         firebase.getPostsByUserEmail(email, lastUpdated) { posts ->
             executor.execute {
                 var time = lastUpdated
@@ -107,14 +116,13 @@ class Model private constructor() {
                     }
                 }
                 Post.lastUpdated = time
-                val postsByOwnerEmail = database.postDao().getPostsByOwnerEmail(email)
-                mainHandler.post {
-                    callback(postsByOwnerEmail)
-                }
+                // Retrieve posts from the database after updating
             }
         }
-
     }
+
+
+
 
     fun getPostById(id: Long ,callback: (Post) -> Unit){
         executor.execute{

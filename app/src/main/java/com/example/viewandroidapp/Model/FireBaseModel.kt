@@ -137,9 +137,10 @@ class FireBaseModel {
     //endregion
 
     //region Posts functions
-    fun getPostsByUserEmail(userEmail: String, since: Long, callback: (List<Post>) -> Unit) {
+    suspend fun getPostsByUserEmail(userEmail: String, since: Long, callback: (List<Post>) -> Unit) {
+        Log.d("posts", "startFireBase")
         db.collection(POSTS_COLLECTION_PATH).whereGreaterThanOrEqualTo(Post.LAST_UPDATED, since)
-            .whereEqualTo(User.EMAIL_KEY, userEmail)
+            .whereEqualTo(Post.EMAIL_KEY, userEmail)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val postsList = mutableListOf<Post>()
@@ -150,7 +151,7 @@ class FireBaseModel {
                         postsList.add(it)
                     }
                 }
-
+                Log.d("posts", "firebase posts : $postsList")
                 callback(postsList)
             }
             .addOnFailureListener { e ->

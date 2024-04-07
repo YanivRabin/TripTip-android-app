@@ -24,12 +24,12 @@ import android.content.Context
 data class Post (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val ownerEmail: String,
-    val ownerName: String,
-    val ownerImage: Int,
-    val description: String,
-    val photo: Int,
-    val location: String,
+    val ownerEmail: String = "",
+    val ownerName: String = "",
+    val ownerImage: Int = 0,
+    val description: String = "",
+    val photo: Int = 0,
+    val location: String = "",
     val insertionTime: String = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
         Date()),
     val lastUpdateTime: Long? = null){

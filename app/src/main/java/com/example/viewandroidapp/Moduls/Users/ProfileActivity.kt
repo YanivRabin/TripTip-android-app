@@ -4,9 +4,11 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.viewandroidapp.Model.FireBaseModel
@@ -16,6 +18,7 @@ import com.example.viewandroidapp.NavUtil
 import com.example.viewandroidapp.R
 import com.example.viewandroidapp.databinding.ActivityProfileBinding
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.*
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -24,7 +27,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var fireBaseModel: FireBaseModel
     private lateinit var auth: FirebaseAuth
     private var model = Model.instance
-    private var currentOwnerEmail = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +42,10 @@ class ProfileActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        getPosts(currentOwnerEmail)
+
+        binding.recyclerView.visibility = View.GONE
+        binding.loadingProgressBar.visibility = View.VISIBLE
+        getPosts(getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!)
 
         // Setup navigation buttons
         val homeButton: ImageButton = findViewById(R.id.homeButton)
@@ -71,7 +76,6 @@ class ProfileActivity : AppCompatActivity() {
                         // User data retrieved successfully
                         // Display the user's name in the UI
                         binding.nameTextView.text = user.name
-                        currentOwnerEmail = user.email
                     } ?: run {
                         // User not found or error occurred
                         // Handle the situation accordingly
@@ -91,11 +95,21 @@ class ProfileActivity : AppCompatActivity() {
 
     // Generate dummy list of posts (replace with dataBase)
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getPosts(ownerEmail: String?){
-        model.refreshPostsByOwnerEmail(ownerEmail?: "", callback = { posts ->
-            recyclerView.adapter = PostAdapter(posts.sortedBy { it.insertionTime })
-        })
+    private fun getPosts(ownerEmail: String?) {
+        Log.d("posts", "first")
+        lifecycleScope.launch {
+            val posts = withContext(Dispatchers.IO) {
+                model.getAllPostsByOwnerEmail(ownerEmail ?: "")
+            }
+            // Now you have the posts list here, you can pass it to your adapter
+            PostAdapter(posts)
+            Log.d("posts", "Profile activity Posts : $posts")
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.loadingProgressBar.visibility = View.GONE
+        }
     }
+
+
 
     fun onIconSettingsClick(view: View) {
         // Open setting
