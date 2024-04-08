@@ -2,9 +2,12 @@ package com.example.viewandroidapp.Moduls.Posts
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +17,7 @@ import com.example.viewandroidapp.Moduls.Users.ProfileActivity
 import com.example.viewandroidapp.R
 import com.example.viewandroidapp.SearchActivity
 import com.google.firebase.firestore.ServerTimestamp
+import com.squareup.picasso.Picasso
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -25,6 +29,7 @@ class CreatePostActivity : AppCompatActivity()  {
     private lateinit var locationTextView: TextView
     private lateinit var postDescription: TextView
     private var model = Model.instance
+    private var selectedImageUri: Uri? = null
 
     private val ownerEmail: String = ""
     private val ownerName: String = ""
@@ -45,7 +50,7 @@ class CreatePostActivity : AppCompatActivity()  {
         finish()
     }
     fun onIconCheckClick(view: View) {
-        Log.d("create post","email" + getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!)
+        Log.d("posts","email" + getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!)
 
         // Get the text from the EditText fields
         val name = nameTextView.text.toString()
@@ -56,9 +61,9 @@ class CreatePostActivity : AppCompatActivity()  {
         val post = Post(
             ownerEmail = getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!,
             ownerName = getSharedPreferences("user", MODE_PRIVATE).getString("ownerName", "")!!,
-            ownerImage = getSharedPreferences("user", MODE_PRIVATE).getInt("ownerImage", 0),
+            //ownerImage = getSharedPreferences("user", MODE_PRIVATE).getString("ownerImage", "")!!,
             description = description,
-            photo = 0, // TODO Add photo
+            //photo = selectedImageUri.toString(),
             location = location,
             insertionTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
                 Date()
@@ -82,6 +87,22 @@ class CreatePostActivity : AppCompatActivity()  {
     }
 
     fun onAddPhotoClick(view: View) {
+        // Create an intent to open the image picker
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickImageLauncher.launch(intent)
+    }
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            selectedImageUri = data?.data
+            // Load the selected image into the ImageView using Picasso
+            Picasso.get().load(selectedImageUri).into(findViewById<ImageView>(R.id.addPhoto))
+
+            // Hide the "Add photo" text and icon
+//            findViewById<View>(R.id.addPhotoIcon).visibility = View.GONE
+//            findViewById<TextView>(R.id.addPhotoIcon).visibility = View.GONE
+        }
     }
 
     private val startForResult =
@@ -99,5 +120,9 @@ class CreatePostActivity : AppCompatActivity()  {
         // Add an extra parameter to indicate the context (Search or Create)
         intent.putExtra("context", "create")
         startForResult.launch(intent)
+    }
+
+    fun changePostPicture(view: View) {
+        // change picture on the edit but only change the picture in the database if pressed check
     }
 }

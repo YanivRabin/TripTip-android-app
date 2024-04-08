@@ -22,13 +22,12 @@ import android.content.Context
     indices = [Index("ownerEmail")]
 )
 data class Post (
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey var id: String = "",
     val ownerEmail: String = "",
     val ownerName: String = "",
-    val ownerImage: Int = 0,
+    val ownerImage: String = "",
     val description: String = "",
-    val photo: Int = 0,
+    val photo: String = "",
     val location: String = "",
     val insertionTime: String = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
         Date()),
@@ -36,8 +35,8 @@ data class Post (
 
 
     // constructor
-    constructor(ownerEmail: String, ownerName: String, ownerImage: Int, description: String, photo: Int, location: String) :
-            this(0, ownerEmail, ownerName, ownerImage, description, photo, location, SimpleDateFormat(
+    constructor(ownerEmail: String, ownerName: String, ownerImage: String, description: String, photo: String, location: String) :
+            this("", ownerEmail, ownerName, ownerImage, description, photo, location, SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()),
                 System.currentTimeMillis())
     companion object {

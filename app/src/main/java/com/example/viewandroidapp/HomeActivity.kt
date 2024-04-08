@@ -64,19 +64,22 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         // Check if user is signed in (not null)
         currentUser?.let { user ->
             // Get the email of the logged-in user
+            Log.d("fetchAndDisplayUserName", "start fetch: ${user.email}")
             val userEmail = user.email
             // Fetch user data from Firestore using the logged-in user's email
             if (userEmail != null) {
                 model.getUserByEmail(userEmail, callback = {
                     // User found, display the user's name
                     val user = it
-                    Log.d("HomeActivity", "User: $user")
+                    Log.d("fetchAndDisplayUserName", "User: $user")
                     val sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE)
                     val editor = sharedPreferences.edit()
                     editor.putString("ownerEmail", user.email)
                     editor.putString("ownerName", user.name)
-                    editor.putInt("ownerImage", 0)
+                    editor.putString("ownerImage", user.profileImage)
                     editor.apply()
+                    Log.d("fetchAndDisplayUserName", "end")
+
                 })
             }
         }

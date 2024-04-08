@@ -10,6 +10,8 @@ import androidx.room.Update
 
 @Dao
 interface UserDao {
+    @Query("select * from User")
+    fun getAllUser(): List<User>
     @Query("select * from User where email = :email")
     fun getUserByEmail(email: String): User
     @Insert(onConflict = OnConflictStrategy.REPLACE)

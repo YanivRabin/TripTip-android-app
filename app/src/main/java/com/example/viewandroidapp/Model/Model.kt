@@ -3,12 +3,14 @@ package com.example.viewandroidapp.Model
 import android.app.appsearch.BatchResultCallback
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.core.os.HandlerCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.viewandroidapp.Moduls.Posts.PostViewModel
 import com.example.viewandroidapp.dao.AppLocalDb
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import java.util.concurrent.Executors
 
 class Model private constructor() {
@@ -25,25 +27,20 @@ class Model private constructor() {
     //region User functions using ROOM
 
     fun getUserByEmail(email: String, callback: (User) -> Unit) {
-        executor.execute() {
-            val user = database.userDao().getUserByEmail(email)
-            mainHandler.post {
-                callback(user)
-            }
-        }
+        refreshUserByEmail(email){ callback(it) }
     }
 
     fun refreshUserByEmail(email: String, callback: (User) -> Unit) {
+        Log.d("fetchAndDisplayUserName", "start refreshUserByEmail")
         val lastUpdated: Long = User.lastUpdated
         firebase.getUserByEmail(email, lastUpdated) { user ->
             executor.execute {
+                Log.d("fetchAndDisplayUserName", "start room: $user")
                 database.userDao().insertUser(user)
+                Log.d("fetchAndDisplayUserName", "end room : $user")
                 User.lastUpdated = user.lastUpdateTime ?: System.currentTimeMillis()
                 val userByEmail = database.userDao().getUserByEmail(email)
-                mainHandler.post {
-                    callback(userByEmail)
-                }
-            }
+                callback(userByEmail) }
         }
     }
 
@@ -97,14 +94,17 @@ class Model private constructor() {
     }
 
     suspend fun getAllPostsByOwnerEmail(email: String): List<Post> {
+        Log.d("posts", "getAllPostsByOwnerEmail from room : ${database.postDao().getPostsByOwnerEmail(email)}")
         refreshPostsByOwnerEmail(email)
+        delay(1000)
+        Log.d("posts", "getAllPostsByOwnerEmail from room : ${database.postDao().getPostsByOwnerEmail(email)}")
         return database.postDao().getPostsByOwnerEmail(email)
     }
 
 
     suspend fun refreshPostsByOwnerEmail(email: String){
+        Log.d("posts", "refreshPostsByOwnerEmail")
         val lastUpdated: Long = Post.lastUpdated
-        Log.d("posts", "lastUpdated: $lastUpdated")
         firebase.getPostsByUserEmail(email, lastUpdated) { posts ->
             executor.execute {
                 var time = lastUpdated
@@ -143,15 +143,19 @@ class Model private constructor() {
     }
 
     fun savePost(post: Post, callback: () -> Unit) {
-        Log.d("FireBaseModel save post", "Saving post: $post")
-        firebase.savePost(post, callback){
+        Log.d("posts", "Saving post: $post")
+        firebase.savePost(post, onSuccess = {
+            post.id = it
             executor.execute {
                 database.postDao().insertPost(post)
                 mainHandler.post {
                     callback()
                 }
             }
+        }){
+            Log.e("savePost Exception", "$it")
         }
+        //firebase.uploadPhoto(post.photo, "posts_images")
     }
 
     fun updatePost(post: Post, callback: () -> Unit){

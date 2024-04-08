@@ -1,12 +1,17 @@
 package com.example.viewandroidapp
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.room.Room
 import com.example.viewandroidapp.Moduls.Users.RegisterActivity
+import com.example.viewandroidapp.dao.AppLocalDb
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private lateinit var authModel: AuthModel

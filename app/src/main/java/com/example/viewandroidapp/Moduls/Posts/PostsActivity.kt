@@ -3,6 +3,7 @@ package com.example.viewandroidapp.Moduls.Posts
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
@@ -33,6 +34,7 @@ class PostsActivity : AppCompatActivity() {
         val location = intent.getStringExtra("countryName")
         binding.countryNameTextView.text = location
         val posts = model.getAllPostsByLocation(location!!)
+        Log.d("posts", "$posts")
 
 
         // Setup RecyclerView for posts

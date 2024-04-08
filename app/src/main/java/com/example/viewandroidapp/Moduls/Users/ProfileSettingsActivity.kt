@@ -77,21 +77,9 @@ class ProfileSettingsActivity : AppCompatActivity() {
                 // Upload the selected image to Firebase Storage
                 val userEmail = auth.currentUser?.email ?: ""
                 selectedImageUri?.let { uri ->
-                    fireBaseModel.uploadPhoto(uri, userEmail,
-                        onSuccess = {
-                            // Profile picture uploaded successfully
-                            // You may want to update UI or show a message here
-                                    Log.e("ProfileSettingsActivity", "Profile picture uploaded successfully")
-                        }
-                    ) { exception ->
-                        // Handle failure
-                        // You may want to show an error message or log the exception
-                        Log.e(
-                            "ProfileSettingsActivity",
-                            "Error uploading profile picture: $exception"
-                        )
-                    }
-                }            }
+                    fireBaseModel.uploadPhoto(uri.toString(), "profile_image")
+                }
+            }
         }
     }
     fun onIconCheckClick(view: View) {

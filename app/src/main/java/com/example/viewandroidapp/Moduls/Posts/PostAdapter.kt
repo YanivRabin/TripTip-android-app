@@ -1,6 +1,7 @@
 package com.example.viewandroidapp.Moduls.Posts
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,11 +32,12 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
-        holder.profilePicture.setImageResource(post.ownerImage)
+        //holder.profilePicture.setImageResource(post.ownerImage)
         holder.nameAndLocation.text = "${post.ownerName} at ${post.location}"
         holder.timestamp.text = post.insertionTime
         holder.postDescription.text = post.description
-        holder.postImage.setImageResource(post.photo)
+        //holder.postImage.setImageResource(post.photo)
+        Log.d("posts", "Post Adapter : $post")
         //TODO change
         // Handle edit button click
         holder.editButton.setOnClickListener {

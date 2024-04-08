@@ -3,6 +3,7 @@ package com.example.viewandroidapp.Model
 
 import android.net.Uri
 import android.util.Log
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -61,11 +62,13 @@ class FireBaseModel {
     }
 
     fun getUserByEmail(email: String, since: Long, callback: (User) -> Unit) {
-        db.collection(USERS_COLLECTION_PATH).whereGreaterThanOrEqualTo(User.LAST_UPDATED, since)
+        Log.d("fetchAndDisplayUserName", "start fireBase: $User.LAST_UPDATED")
+        db.collection(USERS_COLLECTION_PATH)
             .whereEqualTo(User.EMAIL_KEY, email)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val user = querySnapshot.documents[0].toObject(User::class.java)!!
+                Log.d("fetchAndDisplayUserName", "end fireBase: $user")
                 callback(user)
             }
             .addOnFailureListener { e ->
@@ -74,8 +77,8 @@ class FireBaseModel {
             }
     }
 
-    //TODO roy check this function
-    fun uploadPhoto(photoUrl: Uri, type: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+
+    fun uploadPhoto(photoUrl: String, type: String) {
         // Generate a unique filename for the photo
         val fileName = "${UUID.randomUUID()}.jpg"
 
@@ -89,22 +92,10 @@ class FireBaseModel {
         }
 
         // Get the URI of the photo
-        val photoUri = Uri.parse(photoUrl.toString())
+        val photoUri = Uri.parse(photoUrl)
 
         // Upload the photo to Firebase Storage
         storageRef.putFile(photoUri)
-            .addOnSuccessListener { taskSnapshot ->
-                // Get the download URL of the uploaded photo
-                storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                    val downloadUrl = downloadUri.toString()
-                    onSuccess(downloadUrl) // Pass the download URL to the success callback
-                }.addOnFailureListener {
-                    onFailure(it) // Pass any errors to the failure callback
-                }
-            }
-            .addOnFailureListener { e ->
-                onFailure(e) // Pass any errors to the failure callback
-            }
     }
     fun updateUserName(email: String, newName: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         db.collection(USERS_COLLECTION_PATH).document(email).update(User.NAME_KEY, newName,
@@ -138,7 +129,7 @@ class FireBaseModel {
 
     //region Posts functions
     suspend fun getPostsByUserEmail(userEmail: String, since: Long, callback: (List<Post>) -> Unit) {
-        Log.d("posts", "startFireBase")
+        Log.d("posts", "start fire base, getPostsByUserEmail")
         db.collection(POSTS_COLLECTION_PATH).whereGreaterThanOrEqualTo(Post.LAST_UPDATED, since)
             .whereEqualTo(Post.EMAIL_KEY, userEmail)
             .get()
@@ -147,6 +138,9 @@ class FireBaseModel {
 
                 for (document in querySnapshot.documents) {
                     val post = document.toObject(Post::class.java)
+                    if (post != null) {
+                        post.id = document.id
+                    }
                     post?.let {
                         postsList.add(it)
                     }
@@ -161,6 +155,7 @@ class FireBaseModel {
     }
 
     fun getPostsByLocation(location: String, since: Long, callback: (List<Post>) -> Unit) {
+        Log.d("posts", "start fire base, getPostsByLocation")
         db.collection(POSTS_COLLECTION_PATH).whereGreaterThanOrEqualTo(Post.LAST_UPDATED, since)
             .whereEqualTo(Post.LOCATION_KEY, location)
             .get()
@@ -169,11 +164,13 @@ class FireBaseModel {
 
                 for (document in querySnapshot.documents) {
                     val post = document.toObject(Post::class.java)
+                    if (post != null) {
+                        post.id = document.id
+                    }
                     post?.let {
                         postsList.add(it)
                     }
                 }
-
                 callback(postsList)
             }
             .addOnFailureListener { e ->
@@ -182,11 +179,10 @@ class FireBaseModel {
             }
     }
 
-    fun savePost(post: Post, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun savePost(post: Post, onSuccess: (documentReference: String) -> Unit, onFailure: (Exception) -> Unit) {
         Log.d("FireBaseModel save post", "Saving post: $post")
         val postsCollection = db.collection(POSTS_COLLECTION_PATH)
         val postData = hashMapOf(
-            "postId" to post.id,
             "ownerEmail" to post.ownerEmail,
             "ownerName" to post.ownerName,
             "ownerImage" to post.ownerImage,
@@ -200,7 +196,18 @@ class FireBaseModel {
         postsCollection.add(postData)
             .addOnSuccessListener { documentReference ->
                 Log.d("FireBaseModel save post", "Post added with ID: ${documentReference.id}")
-                onSuccess()
+                // Update the postId field with the documentReference.id
+                postData["postId"] = documentReference.id
+                documentReference.set(postData)
+                    .addOnSuccessListener {
+                        Log.d("FireBaseModel save post", "Post data updated with postId: ${documentReference.id}")
+                        // Update the post object with the postId
+                        onSuccess(documentReference.id)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("FireBaseModel save post", "Error updating post data", e)
+                        onFailure(e)
+                    }
             }
             .addOnFailureListener { e ->
                 Log.e("FireBaseModel save post", "Error adding post", e)
