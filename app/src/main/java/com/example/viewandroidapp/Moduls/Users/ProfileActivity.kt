@@ -74,9 +74,9 @@ class ProfileActivity : AppCompatActivity() {
             // Now you have the posts list here, you can pass it to your adapter
             recyclerView.adapter = PostAdapter(posts)
             Log.d("posts", "Profile activity Posts : $posts")
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.loadingProgressBar.visibility = View.GONE
         }
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.loadingProgressBar.visibility = View.GONE
     }
 
 

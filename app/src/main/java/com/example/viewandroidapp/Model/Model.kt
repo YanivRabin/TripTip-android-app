@@ -85,10 +85,6 @@ class Model private constructor() {
 
                     }
                 Post.lastUpdated = time
-/*                val postsByLocation = database.postDao().getPostsByLocation(location)
-                mainHandler.post {
-                    callback(postsByLocation)
-                    }*/
                 }
         }
     }
@@ -96,7 +92,7 @@ class Model private constructor() {
     suspend fun getAllPostsByOwnerEmail(email: String): List<Post> {
         Log.d("posts", "getAllPostsByOwnerEmail from room : ${database.postDao().getPostsByOwnerEmail(email)}")
         refreshPostsByOwnerEmail(email)
-        delay(1000)
+        delay(2000)
         Log.d("posts", "getAllPostsByOwnerEmail from room : ${database.postDao().getPostsByOwnerEmail(email)}")
         return database.postDao().getPostsByOwnerEmail(email)
     }

@@ -244,4 +244,857 @@
         <item>Zambia,-13.133897,27.849332</item>
         <item>Zimbabwe,-19.015438,29.154857</item>
     </string-array>
+    <string-array name="places_by_country">
+        <item>Afghanistan,Kabul Zoo</item>
+        <item>Afghanistan,Herat Citadel</item>
+
+        <item>Albania,Gjirokastër Castle</item>
+        <item>Albania,Butrint National Park</item>
+
+        <item>Algeria,Tassili n\'Ajjer National Park</item>
+        <item>Algeria,Djemila</item>
+
+        <item>American Samoa,Pago Pago</item>
+        <item>American Samoa,Mount Alava</item>
+
+        <item>Andorra,Casa de la Vall</item>
+        <item>Andorra,Grandvalira Ski Resort</item>
+
+        <item>Angola,Kissama National Park</item>
+        <item>Angola,Miradouro da Lua</item>
+
+        <item>Anguilla,Shoal Bay</item>
+        <item>Anguilla,Rendezvous Bay</item>
+
+        <item>Antarctica,McMurdo Station</item>
+        <item>Antarctica,Lake Vostok</item>
+
+        <item>Antigua and Barbuda,Nelson\'s Dockyard</item>
+        <item>Antigua and Barbuda,Shirley Heights</item>
+
+        <item>Argentina,Perito Moreno Glacier</item>
+        <item>Argentina,Iguazu Falls</item>
+
+        <item>Armenia,Geghard Monastery</item>
+        <item>Armenia,Lake Sevan</item>
+
+        <item>Aruba,Oranjestad</item>
+        <item>Aruba,Eagle Beach</item>
+
+        <item>Australia,Sydney Opera House</item>
+        <item>Australia,Great Barrier Reef</item>
+
+        <item>Austria,Schönbrunn Palace</item>
+        <item>Austria,Vienna State Opera</item>
+
+        <item>Azerbaijan,Maiden Tower</item>
+        <item>Azerbaijan,Heydar Aliyev Center</item>
+
+        <item>Bahrain,Bahrain National Museum</item>
+        <item>Bahrain,Bab Al Bahrain</item>
+
+        <item>Bangladesh,Sundarbans</item>
+        <item>Bangladesh,Cox\'s Bazar</item>
+
+        <item>Barbados,Harrison\'s Cave</item>
+        <item>Barbados,Carlisle Bay</item>
+
+        <item>Belarus,Mir Castle Complex</item>
+        <item>Belarus,Nesvizh Castle</item>
+
+        <item>Belgium,Grand Place</item>
+        <item>Belgium,Bruges Belfry</item>
+
+        <item>Belize,Great Blue Hole</item>
+        <item>Belize,Actun Tunichil Muknal</item>
+
+        <item>Benin,Pendjari National Park</item>
+        <item>Benin,Royal Palaces of Abomey</item>
+
+        <item>Bermuda,Horseshoe Bay Beach</item>
+        <item>Bermuda,St. George\'s Town</item>
+
+        <item>Bhutan,Tiger\'s Nest Monastery</item>
+        <item>Bhutan,Punakha Dzong</item>
+
+        <item>Bolivia,Salar de Uyuni</item>
+        <item>Bolivia,Tiwanaku</item>
+
+        <item>Bosnia and Herzegovina,Stari Most</item>
+        <item>Bosnia and Herzegovina,Old Bridge Area of the Old City of Mostar</item>
+
+        <item>Botswana,Okavango Delta</item>
+        <item>Botswana,Chobe National Park</item>
+
+        <item>Brazil,Christ the Redeemer</item>
+        <item>Brazil,Iguazu Falls</item>
+
+        <item>British Indian Ocean Territory,Diego Garcia</item>
+        <item>British Indian Ocean Territory,Peros Banhos</item>
+
+        <item>British Virgin Islands,The Baths</item>
+        <item>British Virgin Islands,Norman Island</item>
+
+        <item>Brunei,Sultan Omar Ali Saifuddien Mosque</item>
+        <item>Brunei,Ulu Temburong National Park</item>
+
+        <item>Bulgaria,Rila Monastery</item>
+        <item>Bulgaria,Alexander Nevsky Cathedral</item>
+
+        <item>Burkina Faso,Arli National Park</item>
+        <item>Burkina Faso,Nazinga Game Ranch</item>
+
+        <item>Burundi,Kibira National Park</item>
+        <item>Burundi,Rusizi National Park</item>
+
+        <item>Cambodia,Angkor Wat</item>
+        <item>Cambodia,Tonle Sap Lake</item>
+
+        <item>Cameroon,Waza National Park</item>
+        <item>Cameroon,Mt. Cameroon</item>
+
+        <item>Canada,Niagara Falls</item>
+        <item>Canada,Banff National Park</item>
+
+        <item>Cape Verde,Santo Antão</item>
+        <item>Cape Verde,Boa Vista</item>
+
+        <item>Cayman Islands,Seven Mile Beach</item>
+        <item>Cayman Islands,Stingray City</item>
+
+        <item>Central African Republic,Dzanga Sangha National Park</item>
+        <item>Central African Republic,Bamingui-Bangoran National Park</item>
+
+        <item>Chad,Zakouma National Park</item>
+        <item>Chad,Fada</item>
+
+        <item>Chile,Easter Island</item>
+        <item>Chile,Torres del Paine National Park</item>
+
+        <item>China,Great Wall of China</item>
+        <item>China,Forbidden City</item>
+
+        <item>Christmas Island,Flying Fish Cove</item>
+        <item>Christmas Island,Dolly Beach</item>
+
+        <item>Cocos (Keeling) Islands,Cocos Heritage Museum</item>
+        <item>Cocos (Keeling) Islands,Cossies Beach</item>
+
+        <item>Colombia,Tayrona National Park</item>
+        <item>Colombia,Coffee Cultural Landscape</item>
+
+        <item>Comoros,Moheli Marine Park</item>
+        <item>Comoros,Mount Karthala</item>
+
+        <item>Congo,Odzala-Kokoua National Park</item>
+        <item>Congo,Loupaki National Park</item>
+
+        <item>Cook Islands,Aitutaki</item>
+        <item>Cook Islands,Rarotonga</item>
+
+        <item>Costa Rica,Arenal Volcano</item>
+        <item>Costa Rica,Manuel Antonio National Park</item>
+
+        <item>Cote d\'Ivoire,Taï National Park</item>
+        <item>Cote d\'Ivoire,Comoe National Park</item>
+
+        <item>Croatia,Plitvice Lakes National Park</item>
+        <item>Croatia,Dubrovnik Old Town</item>
+
+        <item>Cuba,Old Havana</item>
+        <item>Cuba,Viñales Valley</item>
+
+        <item>Cyprus,Troodos Mountains</item>
+        <item>Cyprus,Aphrodite\'s Rock</item>
+
+        <item>Czech Republic,Prague Castle</item>
+        <item>Czech Republic,Charles Bridge</item>
+
+        <item>Democratic Republic of the Congo,Kahuzi-Biéga National Park</item>
+        <item>Democratic Republic of the Congo,Virunga National Park</item>
+
+        <item>Denmark,Tivoli Gardens</item>
+        <item>Denmark,Nyhavn</item>
+
+        <item>Djibouti,Lake Assal</item>
+        <item>Djibouti,Mousa Ali</item>
+
+        <item>Dominica,Morne Trois Pitons National Park</item>
+        <item>Dominica,Champagne Reef</item>
+
+        <item>Dominican Republic,Pico Duarte</item>
+        <item>Dominican Republic,Los Haitises National Park</item>
+
+        <item>East Timor,Atauro Island</item>
+        <item>East Timor,Tasitolu</item>
+
+        <item>Ecuador,Galápagos Islands</item>
+        <item>Ecuador,Mindo Cloud Forest</item>
+
+        <item>Egypt,Pyramids of Giza</item>
+        <item>Egypt,Karnak Temple</item>
+
+        <item>El Salvador,El Tunco Beach</item>
+        <item>El Salvador,Cerro Verde National Park</item>
+
+        <item>Equatorial Guinea,Malabo</item>
+        <item>Equatorial Guinea,Bata</item>
+
+        <item>Eritrea,Dahlak Archipelago</item>
+        <item>Eritrea,Massawa</item>
+
+        <item>Estonia,Tallinn Old Town</item>
+        <item>Estonia,Kumu Art Museum</item>
+
+        <item>Eswatini,Mlilwane Wildlife Sanctuary</item>
+        <item>Eswatini,Execution Rock</item>
+
+        <item>Ethiopia,Simmien Mountains National Park</item>
+        <item>Ethiopia,Lalibela</item>
+
+        <item>Fiji,Nadi</item>
+        <item>Fiji,Mamanuca Islands</item>
+
+        <item>Finland,Helsinki Cathedral</item>
+        <item>Finland,Suomenlinna</item>
+
+        <item>France,Eiffel Tower</item>
+        <item>France,Louvre Museum</item>
+
+        <item>French Guiana,Guiana Space Centre</item>
+        <item>French Guiana,Iles du Salut</item>
+
+        <item>French Polynesia,Bora Bora</item>
+        <item>French Polynesia,Moorea</item>
+
+        <item>Gabon,Lopé National Park</item>
+        <item>Gabon,Pongara National Park</item>
+
+        <item>Gambia,Abuko Nature Reserve</item>
+        <item>Gambia,James Island</item>
+
+        <item>Georgia,Old Tbilisi</item>
+        <item>Georgia,Gelati Monastery</item>
+
+        <item>Germany,Brandenburg Gate</item>
+        <item>Germany,Neuschwanstein Castle</item>
+
+        <item>Ghana,Cape Coast Castle</item>
+        <item>Ghana,Mole National Park</item>
+
+        <item>Gibraltar,Upper Rock Nature Reserve</item>
+        <item>Gibraltar,St. Michael\'s Cave</item>
+
+        <item>Greece,Acropolis of Athens</item>
+        <item>Greece,Santorini</item>
+
+        <item>Greenland,Ilulissat Icefjord</item>
+        <item>Greenland,Greenland National Museum</item>
+
+        <item>Grenada,Grand Anse Beach</item>
+        <item>Grenada,Concord Falls</item>
+
+        <item>Guadeloupe,La Soufrière</item>
+        <item>Guadeloupe,Deshaies</item>
+
+        <item>Guam,Two Lovers Point</item>
+        <item>Guam,Tumon Beach</item>
+
+        <item>Guatemala,Tikal</item>
+        <item>Guatemala,Lake Atitlán</item>
+
+        <item>Guernsey,St. Peter Port</item>
+        <item>Guernsey,Victor Hugo\'s House</item>
+
+        <item>Guinea,Fouta Djallon</item>
+        <item>Guinea,Îles de Los</item>
+
+        <item>Guinea-Bissau,Bissagos Islands</item>
+        <item>Guinea-Bissau,Orango National Park</item>
+
+        <item>Guyana,Kaieteur Falls</item>
+        <item>Guyana,Iwokrama Forest</item>
+
+        <item>Haiti,Citadelle Laferrière</item>
+        <item>Haiti,Labadie</item>
+
+        <item>Honduras,Copán</item>
+        <item>Honduras,Roatán</item>
+
+        <item>Hong Kong,Victoria Peak</item>
+        <item>Hong Kong,Ngong Ping 360</item>
+
+        <item>Hungary,Buda Castle</item>
+        <item>Hungary,Hungarian Parliament Building</item>
+
+        <item>Iceland,Blue Lagoon</item>
+        <item>Iceland,Þingvellir National Park</item>
+
+        <item>India,Taj Mahal</item>
+        <item>India,Jaipur City Palace</item>
+
+        <item>Indonesia,Borobudur</item>
+        <item>Indonesia,Komodo National Park</item>
+
+        <item>Iran,Persepolis</item>
+        <item>Iran,Nasir al-Mulk Mosque</item>
+
+        <item>Iraq,Babylon</item>
+        <item>Iraq,Erbil Citadel</item>
+
+        <item>Ireland,Cliffs of Moher</item>
+        <item>Ireland,Guinness Storehouse</item>
+
+        <item>Isle of Man,Castle Rushen</item>
+        <item>Isle of Man,Peel Castle</item>
+
+        <item>Israel,Old City of Jerusalem</item>
+        <item>Israel,Old City of Jerusalem</item>
+
+        <item>Italy,Colosseum</item>
+        <item>Italy,Venice Canals</item>
+
+        <item>Jamaica,Dunn\'s River Falls</item>
+        <item>Jamaica,Blue Mountains</item>
+
+        <item>Japan,Mount Fuji</item>
+        <item>Japan,Hiroshima Peace Memorial Park</item>
+
+        <item>Jersey,St. Aubin</item>
+        <item>Jersey,Jersey War Tunnels</item>
+
+        <item>Jordan,Petra</item>
+        <item>Jordan,Wadi Rum</item>
+
+        <item>Kazakhstan,Charyn Canyon</item>
+        <item>Kazakhstan,Baikonur Cosmodrome</item>
+
+        <item>Kenya,Masai Mara National Reserve</item>
+        <item>Kenya,Mount Kenya</item>
+
+        <item>Kiribati,Bairiki</item>
+        <item>Kiribati,Christmas Island</item>
+
+        <item>Kuwait,Kuwait Towers</item>
+        <item>Kuwait,The Avenues Mall</item>
+
+        <item>Kyrgyzstan,Song Kol Lake</item>
+        <item>Kyrgyzstan,Burana Tower</item>
+
+        <item>Laos,Luang Prabang</item>
+        <item>Laos,Plain of Jars</item>
+
+        <item>Latvia,Riga Old Town</item>
+        <item>Latvia,Jūrmala Beach</item>
+
+        <item>Lebanon,Baalbek</item>
+        <item>Lebanon,Jeita Grotto</item>
+
+        <item>Lesotho,Afriski Mountain Resort</item>
+        <item>Lesotho,Maletsunyane Falls</item>
+
+        <item>Liberia,Sapo National Park</item>
+        <item>Liberia,Kakata</item>
+
+        <item>Libya,Sabratha</item>
+        <item>Libya,Ghadames</item>
+
+        <item>Liechtenstein,Vaduz Castle</item>
+        <item>Liechtenstein,Malbun</item>
+
+        <item>Lithuania,Vilnius Old Town</item>
+        <item>Lithuania,Curonian Spit</item>
+
+        <item>Luxembourg,Vianden Castle</item>
+        <item>Luxembourg,Old Quarter</item>
+
+        <item>Macau,Ruins of St. Paul\'s</item>
+        <item>Macau,Senzu Temple</item>
+
+        <item>Madagascar,Avenue of the Baobabs</item>
+        <item>Madagascar,Ranomafana National Park</item>
+
+        <item>Malawi,Lake Malawi</item>
+        <item>Malawi,Liwonde National Park</item>
+
+        <item>Malaysia,Petronas Twin Towers</item>
+        <item>Malaysia,Mount Kinabalu</item>
+
+        <item>Maldives,Male</item>
+        <item>Maldives,Ari Atoll</item>
+
+        <item>Mali,Timbuktu</item>
+        <item>Mali,Djenne</item>
+
+        <item>Malta,Valletta</item>
+        <item>Malta,Mdina</item>
+
+        <item>Marshall Islands,Marshall Islands</item>
+        <item>Marshall Islands,Kwajalein Atoll</item>
+
+        <item>Martinique,Mont Pelée</item>
+        <item>Martinique,Les Trois-Îlets</item>
+
+        <item>Mauritania,Chinguetti</item>
+        <item>Mauritania,Atar</item>
+
+        <item>Mauritius,Port Louis</item>
+        <item>Mauritius,Black River Gorges National Park</item>
+
+        <item>Mexico,Chichen Itza</item>
+        <item>Mexico,Cancun</item>
+
+        <item>Micronesia,Pohnpei</item>
+        <item>Micronesia,Chuuk Lagoon</item>
+
+        <item>Moldova,Orheiul Vechi</item>
+        <item>Moldova,Milestii Mici</item>
+
+        <item>Monaco,Monaco-Ville</item>
+        <item>Monaco,Monaco Grand Prix Circuit</item>
+
+        <item>Mongolia,Gobi Desert</item>
+        <item>Mongolia,Elsen Tasarkhai Sand Dunes</item>
+
+        <item>Montenegro,Kotor Old Town</item>
+        <item>Montenegro,Lovćen National Park</item>
+
+        <item>Montserrat,Soufrière Hills Volcano</item>
+        <item>Montserrat,Little Bay</item>
+
+        <item>Morocco,Marrakech Medina</item>
+        <item>Morocco,Hassan II Mosque</item>
+
+        <item>Mozambique,Bazaruto Archipelago</item>
+        <item>Mozambique,Tofo Beach</item>
+
+        <item>Myanmar,Bagan</item>
+        <item>Myanmar,Inle Lake</item>
+
+        <item>Namibia,Sossusvlei</item>
+        <item>Namibia,Etosha National Park</item>
+
+        <item>Nauru,Yaren</item>
+        <item>Nauru,Buada Lagoon</item>
+
+        <item>Nepal,Kathmandu Durbar Square</item>
+        <item>Nepal,Sagarmatha National Park</item>
+
+        <item>Netherlands,Keukenhof Gardens</item>
+        <item>Netherlands,Van Gogh Museum</item>
+
+        <item>New Caledonia,Île des Pins</item>
+        <item>New Caledonia,Nouméa</item>
+
+        <item>New Zealand,Milford Sound</item>
+        <item>New Zealand,Tongariro National Park</item>
+
+        <item>Nicaragua,Granada</item>
+        <item>Nicaragua,San Juan del Sur</item>
+
+        <item>Niger,Aïr Mountains</item>
+        <item>Niger,W National Park</item>
+
+        <item>Nigeria,Yankari National Park</item>
+        <item>Nigeria,Ogbunike Caves</item>
+
+        <item>Niue,Alofi</item>
+        <item>Niue,Talava Arches</item>
+
+        <item>North Korea,Mount Paektu</item>
+        <item>North Korea,Kaesong</item>
+
+        <item>Northern Mariana Islands,Managaha</item>
+        <item>Northern Mariana Islands,Saipan</item>
+
+        <item>Norway,Norwegian Fjords</item>
+        <item>Norway,Vigeland Sculpture Park</item>
+
+        <item>Oman,Wahiba Sands</item>
+        <item>Oman,Nizwa</item>
+
+        <item>Pakistan,K2</item>
+        <item>Pakistan,Badshahi Mosque</item>
+
+        <item>Palau,Jellyfish Lake</item>
+        <item>Palau,Koror</item>
+
+        <item>Panama,Panama Canal</item>
+        <item>Panama,Bocas del Toro</item>
+
+        <item>Papua New Guinea,Kokoda Track</item>
+        <item>Papua New Guinea,Port Moresby</item>
+
+        <item>Paraguay,Asunción</item>
+        <item>Paraguay,Iguaçu Falls</item>
+
+        <item>Peru,Machu Picchu</item>
+        <item>Peru,Lake Titicaca</item>
+
+        <item>Philippines,Boracay</item>
+        <item>Philippines,Chocolate Hills</item>
+
+        <item>Pitcairn Islands,Pitcairn</item>
+        <item>Pitcairn Islands,Henderson Island</item>
+
+        <item>Poland,Wieliczka Salt Mine</item>
+        <item>Poland,Old Town Kraków</item>
+
+        <item>Portugal,Algarve</item>
+        <item>Portugal,Pena Palace</item>
+
+        <item>Puerto Rico,Old San Juan</item>
+        <item>Puerto Rico,El Yunque National Forest</item>
+
+        <item>Qatar,The Pearl-Qatar</item>
+        <item>Qatar,Aspire Tower</item>
+
+        <item>Romania,Bran Castle</item>
+        <item>Romania,Transfăgărășan Highway</item>
+
+        <item>Russia,Red Square</item>
+        <item>Russia,Hermitage Museum</item>
+
+        <item>Rwanda,Volcanoes National Park</item>
+        <item>Rwanda,Nyungwe Forest</item>
+
+        <item>Saint Kitts and Nevis,Brimstone Hill Fortress</item>
+        <item>Saint Kitts and Nevis,Nevis Peak</item>
+
+        <item>Saint Lucia,Piton Mountains</item>
+        <item>Saint Lucia,Soufrière</item>
+
+        <item>Saint Pierre and Miquelon,Saint Pierre</item>
+        <item>Saint Pierre and Miquelon,Miquelon</item>
+
+        <item>Saint Vincent and the Grenadines,Tobago Cays</item>
+        <item>Saint Vincent and the Grenadines,Bequia</item>
+
+        <item>Samoa,To Sua Ocean Trench</item>
+        <item>Samoa,Upolu</item>
+
+        <item>San Marino,San Marino City</item>
+        <item>San Marino,Mount Titano</item>
+
+        <item>Sao Tome and Principe,Obo National Park</item>
+        <item>Sao Tome and Principe,Pico Cão Grande</item>
+
+        <item>Saudi Arabia,Mecca</item>
+        <item>Saudi Arabia,Al-Ula</item>
+
+        <item>Senegal,Goree Island</item>
+        <item>Senegal,Lake Retba</item>
+
+        <item>Serbia,Belgrade Fortress</item>
+        <item>Serbia,Đavolja Varoš</item>
+
+        <item>Seychelles,La Digue</item>
+        <item>Seychelles,Anse Lazio</item>
+
+        <item>Sierra Leone,Tiwai Island</item>
+        <item>Sierra Leone,Outamba-Kilimi National Park</item>
+
+        <item>Singapore,Marina Bay Sands</item>
+        <item>Singapore,Sentosa Island</item>
+
+        <item>Sint Maarten,Philipsburg</item>
+        <item>Sint Maarten,Maho Beach</item>
+
+        <item>Slovakia,High Tatras</item>
+        <item>Slovakia,Bratislava Castle</item>
+
+        <item>Slovenia,Lake Bled</item>
+        <item>Slovenia,Postojna Cave</item>
+
+        <item>Solomon Islands,Honiara</item>
+        <item>Solomon Islands,Guadalcanal</item>
+
+        <item>Somalia,Mogadishu</item>
+        <item>Somalia,Laas Geel</item>
+
+        <item>South Africa,Kruger National Park</item>
+        <item>South Africa,Table Mountain</item>
+
+        <item>South Korea,Gyeongbokgung Palace</item>
+        <item>South Korea,Jeju Island</item>
+
+        <item>South Sudan,Boma National Park</item>
+        <item>South Sudan,Nimule National Park</item>
+
+        <item>Spain,Sagrada Familia</item>
+        <item>Spain,Alhambra</item>
+
+        <item>Sri Lanka,Sigiriya</item>
+        <item>Sri Lanka,Yala National Park</item>
+
+        <item>Sudan,Ancient Pyramids of Meroe</item>
+        <item>Sudan,Dinder National Park</item>
+
+        <item>Suriname,Brownsberg Nature Park</item>
+        <item>Suriname,Galibi Nature Reserve</item>
+
+        <item>Sweden,Stockholm Old Town</item>
+        <item>Sweden,Icehotel</item>
+
+        <item>Switzerland,Matterhorn</item>
+        <item>Switzerland,Interlaken</item>
+
+        <item>Syria,Palmyra</item>
+        <item>Syria,Krak des Chevaliers</item>
+
+        <item>Taiwan,Taroko Gorge</item>
+        <item>Taiwan,Sun Moon Lake</item>
+
+        <item>Tajikistan,Pamir Mountains</item>
+        <item>Tajikistan,Ismoil Somoni Peak</item>
+
+        <item>Tanzania,Serengeti National Park</item>
+        <item>Tanzania,Zanzibar</item>
+
+        <item>Thailand,Grand Palace</item>
+        <item>Thailand,Phi Phi Islands</item>
+
+        <item>Togo,Fosse aux Lions National Park</item>
+        <item>Togo,Lomé</item>
+
+        <item>Tonga,Tongatapu</item>
+        <item>Tonga,Vava\'u</item>
+
+        <item>Trinidad and Tobago,Pigeon Point</item>
+        <item>Trinidad and Tobago,Maracas Bay</item>
+
+        <item>Tunisia,Dougga</item>
+        <item>Tunisia,Sidi Bou Said</item>
+
+        <item>Turkey,Hagia Sophia</item>
+        <item>Turkey,Cappadocia</item>
+
+        <item>Turkmenistan,Darvaza Gas Crater</item>
+        <item>Turkmenistan,Kunya-Urgench</item>
+
+        <item>Tuvalu,Funafuti</item>
+        <item>Tuvalu,Swains Island</item>
+
+        <item>Uganda,Bwindi Impenetrable National Park</item>
+        <item>Uganda,Murchison Falls National Park</item>
+
+        <item>Ukraine,Saint Sophia\'s Cathedral</item>
+        <item>Ukraine,Chernobyl Exclusion Zone</item>
+
+        <item>Paraguay,Asunción</item>
+        <item>Paraguay,Iguaçu Falls</item>
+
+        <item>Peru,Machu Picchu</item>
+        <item>Peru,Amazon Rainforest</item>
+
+        <item>Philippines,Banaue Rice Terraces</item>
+        <item>Philippines,Puerto Princesa Underground River</item>
+
+        <item>Pitcairn Islands,Pitcairn Island</item>
+        <item>Pitcairn Islands,Henderson Island</item>
+
+        <item>Poland,Old Town Krakow</item>
+        <item>Poland,Auschwitz-Birkenau</item>
+
+        <item>Portugal,Algarve Coast</item>
+        <item>Portugal,Jerónimos Monastery</item>
+
+        <item>Puerto Rico,El Yunque National Forest</item>
+        <item>Puerto Rico,San Juan National Historic Site</item>
+
+        <item>Qatar,Doha Corniche</item>
+        <item>Qatar,The Pearl-Qatar</item>
+
+        <item>Romania,Bran Castle</item>
+        <item>Romania,Palace of the Parliament</item>
+
+        <item>Russia,Red Square</item>
+        <item>Russia,Hermitage Museum</item>
+
+        <item>Rwanda,Volcanoes National Park</item>
+        <item>Rwanda,Nyungwe Forest National Park</item>
+
+        <item>Saint Barthelemy,Gustavia</item>
+        <item>Saint Barthelemy,Shell Beach</item>
+
+        <item>Saint Helena,Ascension Island</item>
+        <item>Saint Helena,Sandy Bay</item>
+
+        <item>Saint Kitts and Nevis,Brimstone Hill Fortress</item>
+        <item>Saint Kitts and Nevis,Pinney\'s Beach</item>
+
+        <item>Saint Lucia,Piton Mountains</item>
+        <item>Saint Lucia,Marigot Bay</item>
+
+        <item>Saint Martin,Philipsburg</item>
+        <item>Saint Martin,Maho Beach</item>
+
+        <item>Saint Pierre and Miquelon,Saint-Pierre</item>
+        <item>Saint Pierre and Miquelon,Île aux Marins</item>
+
+        <item>Saint Vincent and the Grenadines,Tobago Cays</item>
+        <item>Saint Vincent and the Grenadines,Bequia</item>
+
+        <item>Samoa,To Sua Ocean Trench</item>
+        <item>Samoa,Lalomanu Beach</item>
+
+        <item>San Marino,San Marino</item>
+        <item>San Marino,Mount Titano</item>
+
+        <item>Sao Tome and Principe,São Tomé</item>
+        <item>Sao Tome and Principe,Obo National Park</item>
+
+        <item>Saudi Arabia,Al-Masjid an-Nabawi</item>
+        <item>Saudi Arabia,Al-Ula</item>
+
+        <item>Senegal,Goree Island</item>
+        <item>Senegal,Pink Lake</item>
+
+        <item>Serbia,Belgrade Fortress</item>
+        <item>Serbia,Niš Fortress</item>
+
+        <item>Seychelles,Anse Lazio</item>
+        <item>Seychelles,Valle de Mai</item>
+
+        <item>Sierra Leone,Tiwai Island</item>
+        <item>Sierra Leone,Tacugama Chimpanzee Sanctuary</item>
+
+        <item>Singapore,Marina Bay Sands</item>
+        <item>Singapore,Gardens by the Bay</item>
+
+        <item>Sint Maarten,Philipsburg</item>
+        <item>Sint Maarten,Maho Beach</item>
+
+        <item>Slovakia,Bratislava Castle</item>
+        <item>Slovakia,High Tatras</item>
+
+        <item>Slovenia,Lake Bled</item>
+        <item>Slovenia,Postojna Cave</item>
+
+        <item>Solomon Islands,Honiara</item>
+        <item>Solomon Islands,Gizo</item>
+
+        <item>Somalia,Mogadishu</item>
+        <item>Somalia,Lamu</item>
+
+        <item>South Africa,Kruger National Park</item>
+        <item>South Africa,Cape Town</item>
+
+        <item>South Korea,Gyeongbokgung Palace</item>
+        <item>South Korea,Bukhansan National Park</item>
+
+        <item>South Sudan,Boma National Park</item>
+        <item>South Sudan,Mount Kinyeti</item>
+
+        <item>Spain,Sagrada Familia</item>
+        <item>Spain,Alhambra</item>
+
+        <item>Sri Lanka,Sigiriya</item>
+        <item>Sri Lanka,Yala National Park</item>
+
+        <item>Sudan,Meroë</item>
+        <item>Sudan,Nubian Pyramids</item>
+
+        <item>Suriname,Central Suriname Nature Reserve</item>
+        <item>Suriname,Paramaribo</item>
+
+        <item>Swaziland,Hlane Royal National Park</item>
+        <item>Swaziland,Mlilwane Wildlife Sanctuary</item>
+
+        <item>Sweden,Stockholm Old Town</item>
+        <item>Sweden,Icehotel</item>
+
+        <item>Switzerland,Matterhorn</item>
+        <item>Switzerland,Château de Chillon</item>
+
+        <item>Syria,Palmira</item>
+        <item>Syria,Damascus</item>
+
+        <item>Taiwan,Taroko Gorge</item>
+        <item>Taiwan,Alishan National Scenic Area</item>
+
+        <item>Tajikistan,Pamir Mountains</item>
+        <item>Tajikistan,Iskanderkul</item>
+
+        <item>Tanzania,Serengeti National Park</item>
+        <item>Tanzania,Zanzibar</item>
+
+        <item>Thailand,Grand Palace</item>
+        <item>Thailand,Ayutthaya</item>
+
+        <item>Togo,Koutammakou</item>
+        <item>Togo,Fosse aux Lions National Park</item>
+
+        <item>Tonga,Tongatapu</item>
+        <item>Tonga,Vava\'u</item>
+
+        <item>Trinidad and Tobago,Pigeon Point</item>
+        <item>Trinidad and Tobago,Maracas Beach</item>
+
+        <item>Tunisia,Dougga</item>
+        <item>Tunisia,Ksar Ouled Soltane</item>
+
+        <item>Turkey,Hagia Sophia</item>
+        <item>Turkey,Cappadocia</item>
+
+        <item>Turkmenistan,Darvaza Gas Crater</item>
+        <item>Turkmenistan,Konye-Urgench</item>
+
+        <item>Turks and Caicos Islands,Grace Bay</item>
+        <item>Turks and Caicos Islands,Grand Turk Island</item>
+
+        <item>Tuvalu,Funafuti</item>
+        <item>Tuvalu,Fongafale</item>
+
+        <item>Uganda,Bwindi Impenetrable Forest</item>
+        <item>Uganda,Murchison Falls National Park</item>
+
+        <item>Ukraine,Kiev Pechersk Lavra</item>
+        <item>Ukraine,Sophia Square</item>
+
+        <item>United Arab Emirates,Burj Khalifa</item>
+        <item>United Arab Emirates,Sheikh Zayed Grand Mosque</item>
+
+        <item>United Kingdom,Buckingham Palace</item>
+        <item>United Kingdom,Tower of London</item>
+
+        <item>United States,Grand Canyon</item>
+        <item>United States,Statue of Liberty</item>
+
+        <item>Uruguay,Colonia del Sacramento</item>
+        <item>Uruguay,Punta del Este</item>
+
+        <item>Uzbekistan,Samarkand</item>
+        <item>Uzbekistan,Registan Square</item>
+
+        <item>Vanuatu,Efate</item>
+        <item>Vanuatu,Tanna Island</item>
+
+        <item>Vatican City,Saint Peter\'s Basilica</item>
+        <item>Vatican City,Sistine Chapel</item>
+
+        <item>Venezuela,Angel Falls</item>
+        <item>Venezuela,Los Roques Archipelago</item>
+
+        <item>Vietnam,Hạ Long Bay</item>
+        <item>Vietnam,Hội An Ancient Town</item>
+
+        <item>Virgin Islands,Caneel Bay</item>
+        <item>Virgin Islands,Trunk Bay</item>
+
+        <item>Wallis and Futuna,Mata-Utu</item>
+        <item>Wallis and Futuna,Mount Lulu Fakahega</item>
+
+        <item>Western Sahara,Dakhla</item>
+        <item>Western Sahara,Lagouira</item>
+
+        <item>Yemen,Socotra</item>
+        <item>Yemen,Sana\'a</item>
+
+        <item>Zambia,Victoria Falls</item>
+        <item>Zambia,South Luangwa National Park</item>
+
+        <item>Zimbabwe,Victoria Falls</item>
+        <item>Zimbabwe,Great Zimbabwe National Monument</item>
+    </string-array>
 </resources>

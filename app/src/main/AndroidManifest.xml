@@ -35,7 +35,8 @@
         <activity android:name=".Moduls.Posts.CreatePostActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${GOOGLE_MAPS_KEY}" />
+            android:value="com.example.viewandroidapp.BuildConfig.GOOGLE_MAPS_KEY" />
+<!--            android:value="${GOOGLE_MAPS_KEY}" />-->
     </application>
 
 </manifest>
