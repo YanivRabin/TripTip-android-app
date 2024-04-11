@@ -1,5 +1,6 @@
 package com.example.viewandroidapp.Moduls.Users
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -11,17 +12,22 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.viewandroidapp.MainActivity
 import com.example.viewandroidapp.Model.FireBaseModel
+import com.example.viewandroidapp.Model.Model
 import com.example.viewandroidapp.R
 import com.example.viewandroidapp.databinding.ActivityProfileSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 class ProfileSettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileSettingsBinding
     private lateinit var fireBaseModel: FireBaseModel
     private lateinit var auth: FirebaseAuth
+    var model = Model.instance
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,26 +68,51 @@ class ProfileSettingsActivity : AppCompatActivity() {
     }
 
     fun changeProfilePictureClick(view: View) {
-        // Open image picker
+        // Create an intent to open the image picker
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        resultLauncher.launch(intent)
+        pickImageLauncher.launch(intent)
     }
-
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            // Retrieve the selected image URI
-            val selectedImageUri = result.data?.data
-            selectedImageUri?.let { uri ->
-                // Update ImageView with selected image
-                binding.profilePicture.setImageURI(uri)
-                // Upload the selected image to Firebase Storage
-                val userEmail = auth.currentUser?.email ?: ""
-                selectedImageUri?.let { uri ->
-                    fireBaseModel.uploadPhoto(uri.toString(), "profile_image")
-                }
-            }
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            var selectedImageUri = data?.data
+            fireBaseModel.uploadPhoto(selectedImageUri.toString(),"profile_image",onSuccess = { photoUrl ->
+                // Photo uploaded successfully, now save it to the user's db
+                val currentUserEmail = auth.currentUser?.email.toString()
+                fireBaseModel.updateProfileImage(currentUserEmail, photoUrl,
+                    onSuccess = {
+                        // Profile image updated successfully
+                        Log.e("ProfileSettingsActivity", "Profile image updated successfully")
+                        // Show a success message or perform any other action if needed
+                        Toast.makeText(
+                            baseContext, "Profile image updated successfully.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        val intent = Intent(this, ProfileActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // Clear back stack
+                        startActivity(intent)
+                        finish()
+                    },
+                    onFailure = { exception ->
+                        // Handle failure
+                        Log.e("ProfileSettingsActivity", "Error updating profile image: $exception")
+                        Toast.makeText(
+                            baseContext, "Error updating profile image.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+            },onFailure = { exception ->
+                // Handle failure
+                Log.e("ProfileSettingsActivity", "Error uploading profile image: $exception")
+                Toast.makeText(
+                    baseContext, "Error uploading profile image.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            })
         }
     }
+
     fun onIconCheckClick(view: View) {
         // Change name in the database
         val newName = findViewById<EditText>(R.id.userName).text.toString()

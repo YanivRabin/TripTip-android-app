@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract.Contacts.Photo
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.viewandroidapp.Model.Model
 import com.example.viewandroidapp.Model.Post
 import com.example.viewandroidapp.Moduls.Users.ProfileActivity
@@ -18,6 +20,8 @@ import com.example.viewandroidapp.R
 import com.example.viewandroidapp.SearchActivity
 import com.google.firebase.firestore.ServerTimestamp
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -57,34 +61,39 @@ class CreatePostActivity : AppCompatActivity()  {
         val description = postDescription.text.toString()
         val location = locationTextView.text.toString()
 
-        // Create a new Post object
-        val post = Post(
-            ownerEmail = getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!,
-            ownerName = getSharedPreferences("user", MODE_PRIVATE).getString("ownerName", "")!!,
-            //ownerImage = getSharedPreferences("user", MODE_PRIVATE).getString("ownerImage", "")!!,
-            description = description,
-            //photo = selectedImageUri.toString(),
-            location = location,
-            insertionTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
-                Date()
-            ),
-            lastUpdateTime = System.currentTimeMillis()
+        // Upload the photo asynchronously
+        model.uploadPhoto(selectedImageUri.toString(), "post_image",
+            onSuccess = { photoUrl ->
+                // Create a new Post object
+                val post = Post(
+                    ownerEmail = getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!,
+                    ownerName = getSharedPreferences("user", MODE_PRIVATE).getString("ownerName", "")!!,
+                    description = description,
+                    location = location,
+                    photo = photoUrl,
+                    insertionTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()),
+                    lastUpdateTime = System.currentTimeMillis()
+                )
+
+                // Pass the post to the ViewModel or save it to the database
+                // For example:
+                Log.d("FireBaseModel save post", "Saving post: $post")
+                model.savePost(post, callback = {
+                    Log.d("FireBaseModel save post", "Saving post: $post")
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // Clear back stack
+                    startActivity(intent)
+                    finish()
+                })
+            },
+            onFailure = { exception ->
+                // Handle failure to upload photo
+                Log.e("uploadPhoto", "Failed to upload photo", exception)
+                // You might want to inform the user about the failure
+            }
         )
-
-
-        Log.d("create post internal", "onIconCheckClick")
-
-        // Pass the post to the ViewModel or save it to the database
-        // For example:
-        Log.d("FireBaseModel save post", "Saving post: $post")
-        model.savePost(post, callback = {
-            Log.d("FireBaseModel save post", "Saving post: $post")
-            val intent = Intent(this, ProfileActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // Clear back stack
-            startActivity(intent)
-            finish()
-        })
     }
+
 
     fun onAddPhotoClick(view: View) {
         // Create an intent to open the image picker

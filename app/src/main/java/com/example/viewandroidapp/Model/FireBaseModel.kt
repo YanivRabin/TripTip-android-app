@@ -78,7 +78,7 @@ class FireBaseModel {
     }
 
 
-    fun uploadPhoto(photoUrl: String, type: String) {
+    fun uploadPhoto(photoUrl: String, type: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
         // Generate a unique filename for the photo
         val fileName = "${UUID.randomUUID()}.jpg"
 
@@ -96,6 +96,18 @@ class FireBaseModel {
 
         // Upload the photo to Firebase Storage
         storageRef.putFile(photoUri)
+            .addOnSuccessListener { taskSnapshot ->
+                // Get the download URL of the uploaded photo
+                storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                    val downloadUrl = downloadUri.toString()
+                    onSuccess(downloadUrl) // Pass the download URL to the success callback
+                }.addOnFailureListener {
+                    onFailure(it) // Pass any errors to the failure callback
+                }
+            }
+            .addOnFailureListener { e ->
+                onFailure(e) // Pass any errors to the failure callback
+            }
     }
     fun updateUserName(email: String, newName: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         db.collection(USERS_COLLECTION_PATH).document(email).update(User.NAME_KEY, newName,

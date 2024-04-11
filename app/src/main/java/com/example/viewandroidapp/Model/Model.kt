@@ -1,6 +1,7 @@
 package com.example.viewandroidapp.Model
 
 import android.app.appsearch.BatchResultCallback
+import android.net.Uri
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
@@ -12,6 +13,9 @@ import com.example.viewandroidapp.dao.AppLocalDb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import java.util.concurrent.Executors
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class Model private constructor() {
 
@@ -279,6 +283,21 @@ class Model private constructor() {
             }
         }
     }
+
+    fun uploadPhoto(photoUri: String, folder: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        firebase.uploadPhoto(photoUri, folder,
+            onSuccess = { downloadUrl ->
+                // On success, call the onSuccess callback with the download URL
+                onSuccess(downloadUrl)
+            },
+            onFailure = { exception ->
+                // On failure, call the onFailure callback with the exception
+                onFailure(exception)
+            }
+        )
+    }
+
+
 
 
     //endregion
