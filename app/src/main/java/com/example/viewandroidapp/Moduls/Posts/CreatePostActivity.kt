@@ -37,7 +37,7 @@ class CreatePostActivity : AppCompatActivity()  {
 
     private val ownerEmail: String = ""
     private val ownerName: String = ""
-    private val ownerImage: Int = 0
+    private var ownerImage: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +55,7 @@ class CreatePostActivity : AppCompatActivity()  {
     }
     fun onIconCheckClick(view: View) {
         Log.d("posts","email" + getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!)
-
+        fetchUserPhoto(getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!)
         // Get the text from the EditText fields
         val name = nameTextView.text.toString()
         val description = postDescription.text.toString()
@@ -69,6 +69,7 @@ class CreatePostActivity : AppCompatActivity()  {
                     ownerEmail = getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!,
                     ownerName = getSharedPreferences("user", MODE_PRIVATE).getString("ownerName", "")!!,
                     description = description,
+                    ownerImage = ownerImage,
                     location = location,
                     photo = photoUrl,
                     insertionTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()),
@@ -93,7 +94,14 @@ class CreatePostActivity : AppCompatActivity()  {
             }
         )
     }
-
+    private fun fetchUserPhoto(ownerEmail: String) {
+        model.getUserByEmail(ownerEmail) { user ->
+            // Assuming user.profileImage is a URL
+            user.profileImage.let { imageUrl ->
+                ownerImage = imageUrl
+            }
+        }
+    }
 
     fun onAddPhotoClick(view: View) {
         // Create an intent to open the image picker

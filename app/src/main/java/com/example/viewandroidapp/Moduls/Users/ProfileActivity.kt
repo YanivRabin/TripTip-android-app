@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.viewandroidapp.Model.FireBaseModel
 import com.example.viewandroidapp.Model.Model
 import com.example.viewandroidapp.Moduls.Posts.PostAdapter
@@ -47,7 +48,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.recyclerView.visibility = View.GONE
         binding.loadingProgressBar.visibility = View.VISIBLE
         getPosts(getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!)
-
+        fetchUserPhoto(getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!)
         // Setup navigation buttons
         val homeButton: ImageButton = findViewById(R.id.homeButton)
         val searchButton: ImageButton = findViewById(R.id.searchButton)
@@ -79,6 +80,19 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
+    private fun fetchUserPhoto(ownerEmail: String) {
+        model.getUserByEmail(ownerEmail) { user ->
+            // Assuming user.profileImage is a URL
+            runOnUiThread {
+                user.profileImage.let { imageUrl ->
+                    // Load the profile image using Glide
+                    Glide.with(binding.profilePicture.context)
+                        .load(imageUrl)
+                        .into(binding.profilePicture)
+                }
+            }
+        }
+    }
 
 
     fun onIconSettingsClick(view: View) {

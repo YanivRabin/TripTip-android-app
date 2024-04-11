@@ -10,11 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.viewandroidapp.Model.Model
 import com.example.viewandroidapp.Model.Post
 import com.example.viewandroidapp.R
+import kotlinx.coroutines.delay
 
 
 class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+    private var model = Model.instance
 
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val profilePicture : ImageView = itemView.findViewById(R.id.profilePicture)
@@ -36,7 +40,19 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
         holder.nameAndLocation.text = "${post.ownerName} at ${post.location}"
         holder.timestamp.text = post.insertionTime
         holder.postDescription.text = post.description
-        //holder.postImage.setImageResource(post.photo)
+
+
+        // Load post photo using Glide
+        Glide.with(holder.itemView.context)
+            .load(post.photo)
+            .into(holder.postImage)
+
+        // Load post owner's profile picture using Glide
+        Glide.with(holder.itemView.context)
+            .load(post.ownerImage)
+            .into(holder.profilePicture)
+
+       // holder.postImage.setImageResource(post.photo)
         Log.d("posts", "Post Adapter : $post")
         //TODO change
         // Handle edit button click
@@ -56,4 +72,9 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
     override fun getItemCount(): Int {
         return posts.size
     }
+
+
+
+
 }
+
