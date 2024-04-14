@@ -7,6 +7,7 @@
     android:layoutDirection="ltr"
     tools:context=".Moduls.Users.ProfileSettingsActivity">
 
+    <!-- black line -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,10 +20,10 @@
             android:id="@+id/closeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:background="@null"
             android:onClick="onIconCloseClick"
             android:paddingStart="16dp"
-            android:layout_alignParentStart="true"
             android:src="@drawable/close_icon"
             tools:ignore="RtlSymmetry" />
 
@@ -40,16 +41,15 @@
             android:id="@+id/logoutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:background="@null"
             android:onClick="onIconLogoutClick"
             android:paddingEnd="16dp"
             android:src="@drawable/logout_icon"
-            android:layout_alignParentEnd="true"
             tools:ignore="RtlSymmetry" />
 
     </RelativeLayout>
 
-    <!-- black line -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -65,18 +65,36 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Change profile picture"
-        android:textColor="@color/my_primary"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:clickable="true"
-        android:onClick="changeProfilePictureClick"
-        android:focusable="true"
-        android:paddingBottom="10dp"/>
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="changeProfilePictureClick"
+            android:paddingBottom="10dp"
+            android:text="Change profile picture"
+            android:textColor="@color/my_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iconCheckProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_gravity="center"
+            android:onClick="onIconCheckProfileClick"
+            android:src="@drawable/check_icon" />
+    </LinearLayout>
+
+
 
     <!-- black line -->
     <View
@@ -105,16 +123,24 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            android:hint="User Name"
+            android:hint="Enter your name"
             android:inputType="text"
             android:textSize="24sp" />
 
         <ImageView
+            android:id="@+id/iconCheckName"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:layout_gravity="center"
             android:onClick="onIconCheckClick"
             android:src="@drawable/check_icon" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
 </LinearLayout>

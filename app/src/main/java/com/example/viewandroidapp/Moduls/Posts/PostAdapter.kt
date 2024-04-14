@@ -72,9 +72,5 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
     override fun getItemCount(): Int {
         return posts.size
     }
-
-
-
-
 }
 

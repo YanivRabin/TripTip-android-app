@@ -1,33 +1,46 @@
 package com.example.viewandroidapp.Moduls.Posts
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.example.viewandroidapp.Model.Model
 import com.example.viewandroidapp.R
+import com.example.viewandroidapp.databinding.ActivityCreatePostBinding
+import com.example.viewandroidapp.databinding.ActivityEditPostBinding
+import com.squareup.picasso.Picasso
 
 class EditPostActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityEditPostBinding
+    private var model = Model.instance
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_post)
+
+        binding = ActivityEditPostBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Retrieve data from Intent extras
-        val postProfilePicture = intent.getIntExtra("profilePicture", 0)
         val postNameAndLocation = intent.getStringExtra("nameAndLocation")
         val postDescription = intent.getStringExtra("postDescription")
-        val postImage = intent.getIntExtra("postImage", 0)
+        val postImage = intent.getStringExtra("postImage")
 
-        // Populate post details
-        val profilePicture = findViewById<ImageView>(R.id.profilePicture)
-        profilePicture.setImageResource(postProfilePicture)
         val nameAndLocation = findViewById<TextView>(R.id.nameAndLocation)
         nameAndLocation.text = postNameAndLocation
         val description = findViewById<EditText>(R.id.postDescription)
         description.setText(postDescription)
-        val image = findViewById<ImageView>(R.id.postImage)
-        image.setImageResource(postImage)
+
+        fetchUserPhoto(getSharedPreferences("user", MODE_PRIVATE).getString("ownerEmail", "")!!)
+        Picasso.get().load(postImage).into(findViewById<ImageView>(R.id.postImage))
     }
 
     fun onIconCloseClick(view: View) {
@@ -37,7 +50,36 @@ class EditPostActivity : AppCompatActivity() {
         // implement change in the database
     }
 
-    fun changePostPicture(view: View) {
-        // change picture on the edit but only change the picture in the database if pressed check
+    private fun fetchUserPhoto(ownerEmail: String) {
+        model.getUserByEmail(ownerEmail) { user ->
+            // Assuming user.profileImage is a URL
+            runOnUiThread {
+                user.profileImage.let { imageUrl ->
+                    // Load the profile image using Glide
+                    Glide.with(binding.profilePicture.context)
+                        .load(imageUrl)
+                        .into(binding.profilePicture)
+                }
+            }
+        }
+    }
+
+    fun onAddPhotoClick(view: View) {
+        // Create an intent to open the image picker
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickImageLauncher.launch(intent)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            val selectedImageUri = data?.data
+            // Load the selected image into the ImageView using Picasso
+            Picasso.get().load(selectedImageUri).into(findViewById<ImageView>(R.id.postImage))
+
+            // Hide the "Add photo" text and icon
+            findViewById<TextView>(R.id.addPhotoText).text = "change photo"
+        }
     }
 }

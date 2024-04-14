@@ -53,8 +53,8 @@ class PostsActivity : AppCompatActivity() {
 
 
         binding.countryNameTextView.text = location
-//        viewModel.posts = model.getAllPostsByLocation(location!!)
-//        Log.d("posts", "${viewModel.posts}")
+        viewModel.posts = model.getAllPostsByLocation(location!!)
+        Log.d("posts", "${viewModel.posts}")
 
         // Setup RecyclerView for posts
         recyclerView = findViewById(R.id.recyclerView)

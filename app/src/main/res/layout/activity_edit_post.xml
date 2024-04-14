@@ -118,15 +118,45 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"/>
 
-        <!-- Post Image -->
-        <ImageView
-            android:id="@+id/postImage"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/ic_launcher_background"
-            android:scaleType="centerCrop"
             android:layout_marginTop="8dp"
-            android:onClick="changePostPicture"/>
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onAddPhotoClick">
+
+            <!-- ImageView for the background -->
+            <ImageView
+                android:id="@+id/postImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/addPhotoIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/add_photo_icon" />
+
+                <TextView
+                    android:id="@+id/addPhotoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addPhotoIcon"
+                    android:layout_centerHorizontal="true"
+                    android:text="Change Photo"
+                    android:textColor="@color/my_primary"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
