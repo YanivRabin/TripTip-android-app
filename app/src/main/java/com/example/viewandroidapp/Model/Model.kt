@@ -297,7 +297,16 @@ class Model private constructor() {
         )
     }
 
-
+    fun editPost(postId: String, newDescription: String, photoUri: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        firebase.editPost(postId, newDescription, photoUri,
+            onSuccess = {
+                onSuccess() // Invoke the success callback upon successful update
+            },
+            onFailure = { exception ->
+                onFailure(exception) // Pass any errors to the failure callback
+            }
+        )
+    }
 
 
     //endregion

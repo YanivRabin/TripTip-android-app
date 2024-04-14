@@ -64,6 +64,7 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
                 putExtra("nameAndLocation", "${post.ownerName} at ${post.location}")
                 putExtra("postDescription", editPost.description)
                 putExtra("postImage", editPost.photo)
+                putExtra("postId", editPost.id)
             }
             holder.itemView.context.startActivity(intent)
         }

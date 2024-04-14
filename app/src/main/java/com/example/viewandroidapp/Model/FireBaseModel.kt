@@ -363,12 +363,13 @@ class FireBaseModel {
                 onFailure(e)
             }
     }
-    fun editPost(postId: String, newDescription: String, newPhotoUrl: String, photoUri: Uri, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun editPost(postId: String, newDescription: String, photoUri: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         // Upload the new photo to Firebase Storage
-        uploadPhoto(photoUri.toString(), "post_image",
+        uploadPhoto(photoUri, "post_image",
             onSuccess = { newPhotoDownloadUrl ->
                 // Reference to the post document
                 val postRef = db.collection(POSTS_COLLECTION_PATH).document(postId)
+                Log.d("postRef", postRef.toString())
 
                 // Create a map with the fields to update
                 val updates = hashMapOf<String, Any>(

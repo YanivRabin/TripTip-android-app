@@ -3,12 +3,15 @@ package com.example.viewandroidapp.Moduls.Posts
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -17,11 +20,15 @@ import com.example.viewandroidapp.R
 import com.example.viewandroidapp.databinding.ActivityCreatePostBinding
 import com.example.viewandroidapp.databinding.ActivityEditPostBinding
 import com.squareup.picasso.Picasso
+import org.checkerframework.checker.index.qual.LengthOf
 
 class EditPostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditPostBinding
     private var model = Model.instance
+    private var selectedImageUri: Uri? = null
+    private var postImage: String = ""
+    private var postId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +39,8 @@ class EditPostActivity : AppCompatActivity() {
         // Retrieve data from Intent extras
         val postNameAndLocation = intent.getStringExtra("nameAndLocation")
         val postDescription = intent.getStringExtra("postDescription")
-        val postImage = intent.getStringExtra("postImage")
+        postImage = intent.getStringExtra("postImage").toString()
+        postId = intent.getStringExtra("postId").toString()
 
         val nameAndLocation = findViewById<TextView>(R.id.nameAndLocation)
         nameAndLocation.text = postNameAndLocation
@@ -47,7 +55,19 @@ class EditPostActivity : AppCompatActivity() {
         finish()
     }
     fun onIconCheckClick(view: View) {
+        Log.d("PostImage", postImage)
         // implement change in the database
+        model.editPost(postId,
+                       findViewById<EditText>(R.id.postDescription).text.toString(),
+                       postImage,
+            onSuccess = {
+                finish()
+            },
+            onFailure = {
+                // Show an error message
+                Toast.makeText(this, "Failed to edit post", Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
     private fun fetchUserPhoto(ownerEmail: String) {
@@ -74,12 +94,10 @@ class EditPostActivity : AppCompatActivity() {
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
-            val selectedImageUri = data?.data
+            selectedImageUri = data?.data
+            postImage = selectedImageUri.toString()
             // Load the selected image into the ImageView using Picasso
             Picasso.get().load(selectedImageUri).into(findViewById<ImageView>(R.id.postImage))
-
-            // Hide the "Add photo" text and icon
-            findViewById<TextView>(R.id.addPhotoText).text = "change photo"
         }
     }
 }

@@ -41,11 +41,7 @@ class CreatePostActivity : AppCompatActivity()  {
     private lateinit var postDescription: TextView
     private var model = Model.instance
     private var selectedImageUri: Uri? = null
-
-    private val ownerEmail: String = ""
-    private val ownerName: String = ""
     private var ownerImage: String = ""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("CreatePostActivity onCreate", "User: ${intent.getStringExtra("ownerEmail")}")
