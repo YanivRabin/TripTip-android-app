@@ -363,6 +363,37 @@ class FireBaseModel {
                 onFailure(e)
             }
     }
+    fun editPost(postId: String, newDescription: String, newPhotoUrl: String, photoUri: Uri, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        // Upload the new photo to Firebase Storage
+        uploadPhoto(photoUri.toString(), "post_image",
+            onSuccess = { newPhotoDownloadUrl ->
+                // Reference to the post document
+                val postRef = db.collection(POSTS_COLLECTION_PATH).document(postId)
+
+                // Create a map with the fields to update
+                val updates = hashMapOf<String, Any>(
+                    "description" to newDescription,
+                    "photo" to newPhotoDownloadUrl, // Use the new photo URL from Storage
+                    "lastUpdateTime" to System.currentTimeMillis()
+                )
+
+                // Update the post document
+                postRef.update(updates)
+                    .addOnSuccessListener {
+                        Log.d("FireBaseModel", "Post updated successfully")
+                        onSuccess()
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("FireBaseModel", "Error updating post", e)
+                        onFailure(e)
+                    }
+            },
+            onFailure = { e ->
+                onFailure(e) // Pass any errors to the failure callback
+            }
+        )
+    }
+
 
     //endregion
 
