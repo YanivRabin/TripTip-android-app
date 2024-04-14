@@ -53,9 +53,8 @@ class PostsActivity : AppCompatActivity() {
 
 
         binding.countryNameTextView.text = location
-        viewModel.posts = model.getAllPostsByLocation(location!!)
-        Log.d("posts", "${viewModel.posts}")
-
+//        viewModel.posts = model.getAllPostsByLocation(location!!)
+//        Log.d("posts", "${viewModel.posts}")
 
         // Setup RecyclerView for posts
         recyclerView = findViewById(R.id.recyclerView)
@@ -64,7 +63,6 @@ class PostsActivity : AppCompatActivity() {
         viewModel.posts?.observe(this) {
             recyclerView.adapter = PostAdapter(it)
         }
-
 
         // Initialize the SDK
         Places.initializeWithNewPlacesApiEnabled(applicationContext, com.example.viewandroidapp.BuildConfig.GOOGLE_MAPS_KEY)
@@ -80,72 +78,10 @@ class PostsActivity : AppCompatActivity() {
                 placesList.add(countryAndPlace[1])
             }
         }
-        if (placesList.size == 2) {
-            // Generate a random index within the range of placesList size
-            val randomIndex = (0 until placesList.size).random()
-            // Get the random place using the random index
-            val randomPlace = placesList[randomIndex]
-
-            // Start the autocomplete query.
-            val autocompleteRequest = FindAutocompletePredictionsRequest.builder().setQuery(randomPlace).build()
-            // get the place ID
-            placesClient.findAutocompletePredictions(autocompleteRequest).addOnSuccessListener { response: FindAutocompletePredictionsResponse ->
-                val placeId = response.autocompletePredictions.firstOrNull()?.placeId
-                Log.d("places", placeId + " : " + response.autocompletePredictions[0].getPrimaryText(null).toString())
-
-                // Specify the fields to return.
-                val placeFields = listOf(Place.Field.REVIEWS)
-                // Construct a request object, passing the place ID and fields array.
-                val request = placeId?.let { FetchPlaceRequest.newInstance(it, placeFields) }
-                if (request != null) {
-                    placesClient.fetchPlace(request).addOnSuccessListener { response2: FetchPlaceResponse ->
-                        val reviews = response2.place.reviews
-                        if (reviews != null) {
-                            binding.loadingProgressBar.visibility = View.GONE
-                            binding.cardView.visibility = View.VISIBLE
-                            val placeReview = reviews[0]
-
-                            // Get any attribution and author attribution.
-                            val name = placeReview.authorAttribution.name + " at " + randomPlace
-                            val photo = placeReview.authorAttribution.photoUri
-                            val review = placeReview.originalText
-                            val stars = placeReview.rating.toFloat()
-                            val date = placeReview.publishTime?.subSequence(0,10)
-                            Log.d("places", "photo: $photo, name: $name, review: $review, stars: $stars, date: $date")
-
-                            if (photo != null) {
-                                val photoUri = Uri.parse(photo)
-                                Glide.with(this@PostsActivity) // Use this@PostsActivity as the context
-                                    .load(photoUri)
-                                    .placeholder(R.drawable.account_icon) // Placeholder image resource
-                                    .error(R.drawable.account_icon) // Error image resource if loading fails
-                                    .into(binding.profilePicture)
-                            }
-                            binding.name.text = name
-                            binding.ratingBar.rating = stars
-                            binding.timestamp.text = date
-                            binding.textReview.text = review
-                        }
-                        else {
-                            Log.d("places", "no reviews for that place")
-                        }
-                    }.addOnFailureListener { exception: Exception? ->
-                        binding.loadingProgressBar.visibility = View.GONE
-                        Log.d("places", "error")
-                        if (exception is ApiException) {
-                            // Handle the error.
-                            Log.d("places", "error $exception")
-                        }
-                    }
-                }
-            }.addOnFailureListener { exception: Exception? ->
-                if (exception is ApiException) {
-                    Log.e("places", "Place not found: ${exception.statusCode}")
-                }
-                displayNoReview()
-            }
-        } else {
-            Log.d("places", "this country has no reviews")
+        if (placesList.isNotEmpty()) {
+            placesApi(placesList)
+        }
+        else {
             displayNoReview()
         }
 
@@ -170,5 +106,79 @@ class PostsActivity : AppCompatActivity() {
         binding.tipText2.visibility = View.VISIBLE
         binding.tipText.text = "SORRY"
         binding.tipText.setTextColor(ContextCompat.getColor(this, R.color.logout))
+    }
+
+    private fun placesApi(placesList: MutableList<String>) {
+        // Get the random place from the list
+        val randomPlace = placesList.removeAt(0)
+
+        // Start the autocomplete query.
+        val autocompleteRequest = FindAutocompletePredictionsRequest.builder().setQuery(randomPlace).build()
+        // get the place ID
+        placesClient.findAutocompletePredictions(autocompleteRequest).addOnSuccessListener { response: FindAutocompletePredictionsResponse ->
+            val placeId = response.autocompletePredictions.firstOrNull()?.placeId
+            Log.d("places", placeId + " : " + response.autocompletePredictions[0].getPrimaryText(null).toString())
+
+            // Specify the fields to return.
+            val placeFields = listOf(Place.Field.REVIEWS)
+            // Construct a request object, passing the place ID and fields array.
+            val request = placeId?.let { FetchPlaceRequest.newInstance(it, placeFields) }
+            if (request != null) {
+                placesClient.fetchPlace(request).addOnSuccessListener { response2: FetchPlaceResponse ->
+                    val reviews = response2.place.reviews
+                    if (reviews != null) {
+                        binding.loadingProgressBar.visibility = View.GONE
+                        binding.cardView.visibility = View.VISIBLE
+                        val placeReview = reviews[0]
+
+                        // Get any attribution and author attribution.
+                        val name = placeReview.authorAttribution.name + " at " + randomPlace
+                        val photo = placeReview.authorAttribution.photoUri
+                        val review = placeReview.originalText
+                        val stars = placeReview.rating.toFloat()
+                        val date = placeReview.publishTime?.subSequence(0,10)
+                        Log.d("places", "photo: $photo, name: $name, review: $review, stars: $stars, date: $date")
+
+                        if (photo != null) {
+                            val photoUri = Uri.parse(photo)
+                            Glide.with(this@PostsActivity) // Use this@PostsActivity as the context
+                                .load(photoUri)
+                                .placeholder(R.drawable.account_icon) // Placeholder image resource
+                                .error(R.drawable.account_icon) // Error image resource if loading fails
+                                .into(binding.profilePicture)
+                        }
+                        binding.name.text = name
+                        binding.ratingBar.rating = stars
+                        binding.timestamp.text = date
+                        binding.textReview.text = review
+                    }
+                    else {
+                        Log.d("places", "no reviews for that place")
+                        if (placesList.isNotEmpty()) {
+                            placesApi(placesList)
+                        }
+                        else {
+                            displayNoReview()
+                        }
+                    }
+                }.addOnFailureListener { exception: Exception? ->
+                    Log.d("places", "error $exception")
+                    if (placesList.isNotEmpty()) {
+                        placesApi(placesList)
+                    }
+                    else {
+                        displayNoReview()
+                    }
+                }
+            }
+        }.addOnFailureListener { exception: Exception? ->
+            Log.e("places", "Place not found: ${exception?.message}")
+            if (placesList.isNotEmpty()) {
+                placesApi(placesList)
+            }
+            else {
+                displayNoReview()
+            }
+        }
     }
 }
