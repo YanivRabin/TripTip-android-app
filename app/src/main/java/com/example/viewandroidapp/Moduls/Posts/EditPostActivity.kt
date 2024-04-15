@@ -65,11 +65,12 @@ class EditPostActivity : AppCompatActivity() {
         binding.addPhotoLayout.isEnabled = false
         binding.postDescription.isEnabled = false
 
-
+        val uriString = selectedImageUri?.toString() ?: ""
+        Log.e("EditPost","photo=$uriString")
         // implement change in the database
         model.editPost(postId,
                        findViewById<EditText>(R.id.postDescription).text.toString(),
-                       postImage,
+            uriString,
             onSuccess = {
                 val intent = Intent(this, ProfileActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // Clear back stack
@@ -114,7 +115,9 @@ class EditPostActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             selectedImageUri = data?.data
-            postImage = selectedImageUri.toString()
+            Log.e("EditPost","postImage: $postImage")
+            //postImage = selectedImageUri.toString()
+            Log.e("EditPost","postImage: $postImage")
             // Load the selected image into the ImageView using Picasso
             Picasso.get().load(selectedImageUri).into(findViewById<ImageView>(R.id.postImage))
         }

@@ -365,34 +365,51 @@ class FireBaseModel {
     }
     fun editPost(postId: String, newDescription: String, photoUri: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         // Upload the new photo to Firebase Storage
-        uploadPhoto(photoUri, "post_image",
-            onSuccess = { newPhotoDownloadUrl ->
-                // Reference to the post document
-                val postRef = db.collection(POSTS_COLLECTION_PATH).document(postId)
-                Log.d("postRef", postRef.toString())
+        val postRef = db.collection(POSTS_COLLECTION_PATH).document(postId)
+        if (photoUri.isNotEmpty()) {
+            uploadPhoto(photoUri, "post_image",
+                onSuccess = { newPhotoDownloadUrl ->
+                    // Reference to the post document
+                    Log.d("postRef", postRef.toString())
 
-                // Create a map with the fields to update
-                val updates = hashMapOf<String, Any>(
-                    "description" to newDescription,
-                    "photo" to newPhotoDownloadUrl, // Use the new photo URL from Storage
-                    "lastUpdateTime" to System.currentTimeMillis()
-                )
+                    // Create a map with the fields to update
+                    val updates = hashMapOf<String, Any>(
+                        "description" to newDescription,
+                        "photo" to newPhotoDownloadUrl, // Use the new photo URL from Storage
+                        "lastUpdateTime" to System.currentTimeMillis()
+                    )
 
-                // Update the post document
-                postRef.update(updates)
-                    .addOnSuccessListener {
-                        Log.d("FireBaseModel", "Post updated successfully")
-                        onSuccess()
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("FireBaseModel", "Error updating post", e)
-                        onFailure(e)
-                    }
-            },
-            onFailure = { e ->
-                onFailure(e) // Pass any errors to the failure callback
-            }
-        )
+                    // Update the post document
+                    postRef.update(updates)
+                        .addOnSuccessListener {
+                            Log.d("FireBaseModel", "Post updated successfully")
+                            onSuccess()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("FireBaseModel", "Error updating post", e)
+                            onFailure(e)
+                        }
+                },
+                onFailure = { e ->
+                    onFailure(e) // Pass any errors to the failure callback
+                }
+            )
+        }
+        else{
+            val updates = hashMapOf<String, Any>(
+                "description" to newDescription,
+                "lastUpdateTime" to System.currentTimeMillis()
+            )
+            postRef.update(updates)
+                .addOnSuccessListener {
+                    Log.d("FireBaseModel", "Post updated successfully")
+                    onSuccess()
+                }
+                .addOnFailureListener { e ->
+                    Log.e("FireBaseModel", "Error updating post", e)
+                    onFailure(e)
+                }
+        }
     }
 
 
