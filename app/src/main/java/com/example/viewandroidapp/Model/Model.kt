@@ -307,6 +307,31 @@ class Model private constructor() {
             }
         )
     }
+    fun updatePostsOwnerNameByEmail(email: String, newName: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        // Utilize the function from FireBaseModel to update posts' owner names
+        FireBaseModel().updatePostsOwnerNameByEmail(email, newName,
+            onSuccess = {
+                onSuccess() // Invoke the success callback upon successful update
+            },
+            onFailure = { exception ->
+                onFailure(exception) // Pass any errors to the failure callback
+            }
+        )
+    }
+
+    fun updatePostsOwnerImageByEmail(email: String, newImage: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        // Utilize the function from FireBaseModel to update posts' owner images
+        FireBaseModel().updatePostsOwnerImageByEmail(email, newImage,
+            onSuccess = {
+                onSuccess() // Invoke the success callback upon successful update
+            },
+            onFailure = { exception ->
+                onFailure(exception) // Pass any errors to the failure callback
+            }
+        )
+    }
+
+
 
 
     //endregion

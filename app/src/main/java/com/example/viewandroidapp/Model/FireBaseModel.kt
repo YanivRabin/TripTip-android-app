@@ -411,6 +411,73 @@ class FireBaseModel {
                 }
         }
     }
+    fun updatePostsOwnerNameByEmail(email: String, newName: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        // Update all posts where the ownerEmail matches the given email
+        db.collection(POSTS_COLLECTION_PATH)
+            .whereEqualTo("ownerEmail", email)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val batch = db.batch()
+
+                for (document in querySnapshot.documents) {
+                    val postRef = db.collection(POSTS_COLLECTION_PATH).document(document.id)
+                    val updates = hashMapOf<String, Any>(
+                        "ownerName" to newName,
+                        "lastUpdateTime" to System.currentTimeMillis()
+                    )
+                    batch.update(postRef, updates)
+                }
+
+                batch.commit()
+                    .addOnSuccessListener {
+                        Log.d("FireBaseModel", "Owner names updated successfully for posts")
+                        onSuccess()
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("FireBaseModel", "Error updating owner names for posts", e)
+                        onFailure(e)
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("FireBaseModel", "Error fetching posts by email", e)
+                onFailure(e)
+            }
+    }
+
+    fun updatePostsOwnerImageByEmail(email: String, newImage: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        // Update all posts where the ownerEmail matches the given email
+        db.collection(POSTS_COLLECTION_PATH)
+            .whereEqualTo("ownerEmail", email)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val batch = db.batch()
+
+                for (document in querySnapshot.documents) {
+                    val postRef = db.collection(POSTS_COLLECTION_PATH).document(document.id)
+                    val updates = hashMapOf<String, Any>(
+                        "ownerImage" to newImage,
+                        "lastUpdateTime" to System.currentTimeMillis()
+                    )
+                    batch.update(postRef, updates)
+                }
+
+                batch.commit()
+                    .addOnSuccessListener {
+                        Log.d("FireBaseModel", "Owner images updated successfully for posts")
+                        onSuccess()
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("FireBaseModel", "Error updating owner images for posts", e)
+                        onFailure(e)
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("FireBaseModel", "Error fetching posts by email", e)
+                onFailure(e)
+            }
+    }
+
+
 
 
     //endregion

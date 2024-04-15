@@ -114,6 +114,12 @@ class ProfileSettingsActivity : AppCompatActivity() {
                 onSuccess = {
                     // Name updated successfully
                     Log.e("ProfileSettingsActivity", "Name updated successfully")
+                    //Update all User's posts
+                    model.updatePostsOwnerNameByEmail(userEmail, newName, onSuccess = {
+                        Log.e("ProfileSettingsActivity", "Posts updated successfully")
+                    }, onFailure = { exception ->
+                        Log.e("ProfileSettingsActivity", "Error updating posts: $exception")
+                    })
                     // Show a success message or perform any other action if needed
                     Toast.makeText(
                         baseContext, "Name updated successfully.",
@@ -162,6 +168,12 @@ class ProfileSettingsActivity : AppCompatActivity() {
                 onSuccess = {
                     // Profile image updated successfully
                     Log.e("ProfileSettingsActivity", "Profile image updated successfully")
+                    // Update all User's posts
+                    model.updatePostsOwnerImageByEmail(currentUserEmail, photoUrl, onSuccess = {
+                        Log.e("ProfileSettingsActivity", "Posts updated successfully")
+                    }, onFailure = { exception ->
+                        Log.e("ProfileSettingsActivity", "Error updating posts: $exception")
+                    })
                     // Show a success message or perform any other action if needed
                     Toast.makeText(
                         baseContext, "Profile image updated successfully.",
