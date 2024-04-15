@@ -61,7 +61,7 @@ class PostsActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
         viewModel.posts?.observe(this) {
-            recyclerView.adapter = PostAdapter(it)
+            recyclerView.adapter = PostAdapter(it, false)
         }
 
         // Initialize the SDK

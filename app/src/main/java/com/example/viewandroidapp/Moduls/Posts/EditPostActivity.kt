@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.viewandroidapp.Model.Model
+import com.example.viewandroidapp.Moduls.Users.ProfileActivity
 import com.example.viewandroidapp.R
 import com.example.viewandroidapp.databinding.ActivityCreatePostBinding
 import com.example.viewandroidapp.databinding.ActivityEditPostBinding
@@ -56,16 +57,34 @@ class EditPostActivity : AppCompatActivity() {
     }
     fun onIconCheckClick(view: View) {
         Log.d("PostImage", postImage)
+        // Show a progress bar
+        binding.loadingProgressBar.visibility = View.VISIBLE
+        binding.closeButton.visibility = View.GONE
+        binding.saveButton.visibility = View.GONE
+        binding.addPhotoButtonLayout.visibility = View.GONE
+        binding.addPhotoLayout.isEnabled = false
+        binding.postDescription.isEnabled = false
+
+
         // implement change in the database
         model.editPost(postId,
                        findViewById<EditText>(R.id.postDescription).text.toString(),
                        postImage,
             onSuccess = {
+                val intent = Intent(this, ProfileActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK // Clear back stack
+                startActivity(intent)
                 finish()
             },
             onFailure = {
                 // Show an error message
                 Toast.makeText(this, "Failed to edit post", Toast.LENGTH_SHORT).show()
+                binding.loadingProgressBar.visibility = View.GONE
+                binding.closeButton.visibility = View.VISIBLE
+                binding.saveButton.visibility = View.VISIBLE
+                binding.addPhotoButtonLayout.visibility = View.VISIBLE
+                binding.addPhotoLayout.isEnabled = true
+                binding.postDescription.isEnabled = true
             }
         )
     }

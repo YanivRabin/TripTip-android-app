@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.viewandroidapp.AuthModel
 import com.example.viewandroidapp.MainActivity
 import com.example.viewandroidapp.Model.FireBaseModel
 import com.example.viewandroidapp.Model.Model
@@ -65,7 +66,8 @@ class ProfileSettingsActivity : AppCompatActivity() {
         builder.setTitle("Logout")
         builder.setMessage("Are you sure you want to logout?")
         builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, _: Int ->
-            // logout action
+            // Call logout function from AuthModel
+            AuthModel(this).logout()
 
             // dismiss window and go back to login page
             dialogInterface.dismiss()

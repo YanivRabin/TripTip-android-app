@@ -119,6 +119,7 @@
             android:layout_marginBottom="15dp"/>
 
         <RelativeLayout
+            android:id="@+id/addPhotoLayout"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="8dp"
@@ -135,6 +136,7 @@
                 android:src="@drawable/ic_launcher_background" />
 
             <RelativeLayout
+                android:id="@+id/addPhotoButtonLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
@@ -160,6 +162,11 @@
 
     </LinearLayout>
 
-
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
 </LinearLayout>

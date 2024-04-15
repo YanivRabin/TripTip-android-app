@@ -73,7 +73,7 @@ class ProfileActivity : AppCompatActivity() {
                 model.getAllPostsByOwnerEmail(ownerEmail ?: "")
             }
             // Now you have the posts list here, you can pass it to your adapter
-            recyclerView.adapter = PostAdapter(posts)
+            recyclerView.adapter = PostAdapter(posts, true)
             Log.d("posts", "Profile activity Posts : $posts")
             binding.recyclerView.visibility = View.VISIBLE
             binding.loadingProgressBar.visibility = View.GONE

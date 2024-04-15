@@ -22,6 +22,14 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize AuthModel
         authModel = AuthModel(this)
+
+        // Check if the user is already logged in
+        if (authModel.isUserLoggedIn()) {
+            // If the user is already logged in, go to the home page
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish() // Finish the current activity so the user cannot go back to the login screen using the back button
+        }
     }
 
     fun onLoginButtonClick(view: View) {

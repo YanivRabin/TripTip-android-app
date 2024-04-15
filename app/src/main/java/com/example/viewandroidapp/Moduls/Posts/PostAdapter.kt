@@ -1,5 +1,7 @@
 package com.example.viewandroidapp.Moduls.Posts
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,7 +19,7 @@ import com.example.viewandroidapp.R
 import kotlinx.coroutines.delay
 
 
-class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+class PostAdapter(private val posts: List<Post>, private val isProfileActivity: Boolean) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
     private var model = Model.instance
 
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -41,6 +43,11 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
         holder.timestamp.text = post.insertionTime
         holder.postDescription.text = post.description
 
+        // Check if the current user is the owner of the post and in the profile activity
+        val sharedPref = holder.itemView.context.getSharedPreferences("user", Context.MODE_PRIVATE)
+        val currentUserEmail = sharedPref.getString("ownerEmail", "")
+        val isOwner = post.ownerEmail == currentUserEmail
+        holder.editButton.visibility = if (isOwner && isProfileActivity) View.VISIBLE else View.GONE
 
         // Load post photo using Glide
         Glide.with(holder.itemView.context)
