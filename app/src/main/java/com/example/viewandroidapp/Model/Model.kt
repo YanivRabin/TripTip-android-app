@@ -70,8 +70,11 @@ class Model private constructor() {
 
     //region Post functions using ROOM
 
-    fun getAllPostsByLocation(location: String): LiveData<List<Post>> {
+    suspend fun getAllPostsByLocation(location: String): LiveData<List<Post>> {
+        Log.d("posts", "getAllPostsByLocation from room : ${database.postDao().getPostsByOwnerEmail(location)}")
         refreshPostsByLocation(location)
+        delay(2000)
+        Log.d("posts", "getAllPostsByLocation from room : ${database.postDao().getPostsByOwnerEmail(location)}")
         return database.postDao().getPostsByLocation(location)
     }
 
@@ -81,6 +84,7 @@ class Model private constructor() {
             executor.execute {
                 var time = lastUpdated
                 for (post in posts) {
+                    Log.d("posts", "refreshPostsByLocation post : ${database.postDao().getAllPosts().value.toString()}")
                     database.postDao().insertPost(post)
                     post.lastUpdateTime?.let {
                         if (time < it)
@@ -96,7 +100,7 @@ class Model private constructor() {
     suspend fun getAllPostsByOwnerEmail(email: String): List<Post> {
         Log.d("posts", "getAllPostsByOwnerEmail from room : ${database.postDao().getPostsByOwnerEmail(email)}")
         refreshPostsByOwnerEmail(email)
-        delay(2000)
+        delay(3000)
         Log.d("posts", "getAllPostsByOwnerEmail from room : ${database.postDao().getPostsByOwnerEmail(email)}")
         return database.postDao().getPostsByOwnerEmail(email)
     }

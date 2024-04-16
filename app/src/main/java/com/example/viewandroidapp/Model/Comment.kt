@@ -15,13 +15,11 @@ import java.util.Locale
             entity = User::class,
             parentColumns = ["email"],
             childColumns = ["ownerEmail"],
-            onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = Post::class,
             parentColumns = ["id"],
             childColumns = ["postId"],
-            onDelete = ForeignKey.CASCADE
         )
     ]
 )data class Comment (

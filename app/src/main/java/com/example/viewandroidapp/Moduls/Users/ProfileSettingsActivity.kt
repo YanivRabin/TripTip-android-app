@@ -161,6 +161,7 @@ class ProfileSettingsActivity : AppCompatActivity() {
         binding.iconCheckName.visibility = View.GONE
         binding.iconCheckProfile.visibility = View.GONE
 
+
         fireBaseModel.uploadPhoto(selectedImageUri.toString(),"profile_image",onSuccess = { photoUrl ->
             // Photo uploaded successfully, now save it to the user's db
             val currentUserEmail = auth.currentUser?.email.toString()

@@ -10,6 +10,8 @@ import androidx.room.Update
 
 @Dao
 interface PostDao {
+    @Query("SELECT * FROM Post")
+    fun getAllPosts(): LiveData<List<Post>>
     @Query("SELECT * FROM Post WHERE id = :postId")
     fun getPostById(postId: Long): Post
     @Query("SELECT * FROM Post WHERE ownerEmail = :ownerEmail")

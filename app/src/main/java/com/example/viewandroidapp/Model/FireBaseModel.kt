@@ -142,7 +142,7 @@ class FireBaseModel {
     //region Posts functions
     suspend fun getPostsByUserEmail(userEmail: String, since: Long, callback: (List<Post>) -> Unit) {
         Log.d("posts", "start fire base, getPostsByUserEmail")
-        db.collection(POSTS_COLLECTION_PATH).whereGreaterThanOrEqualTo(Post.LAST_UPDATED, since)
+        db.collection(POSTS_COLLECTION_PATH)
             .whereEqualTo(Post.EMAIL_KEY, userEmail)
             .get()
             .addOnSuccessListener { querySnapshot ->
@@ -168,7 +168,7 @@ class FireBaseModel {
 
     fun getPostsByLocation(location: String, since: Long, callback: (List<Post>) -> Unit) {
         Log.d("posts", "start fire base, getPostsByLocation")
-        db.collection(POSTS_COLLECTION_PATH).whereGreaterThanOrEqualTo(Post.LAST_UPDATED, since)
+        db.collection(POSTS_COLLECTION_PATH)
             .whereEqualTo(Post.LOCATION_KEY, location)
             .get()
             .addOnSuccessListener { querySnapshot ->

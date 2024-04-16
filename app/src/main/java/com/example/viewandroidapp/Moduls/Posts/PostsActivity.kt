@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -26,6 +27,9 @@ import com.google.android.libraries.places.api.net.FetchPlaceResponse
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class PostsActivity : AppCompatActivity() {
@@ -53,16 +57,15 @@ class PostsActivity : AppCompatActivity() {
 
 
         binding.countryNameTextView.text = location
-        viewModel.posts = model.getAllPostsByLocation(location!!)
-        Log.d("posts", "${viewModel.posts}")
+        getPostsByLocation(location)
+
+        Log.d("posts", "${viewModel.posts.toString()}")
 
         // Setup RecyclerView for posts
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        viewModel.posts?.observe(this) {
-            recyclerView.adapter = PostAdapter(it, false)
-        }
+
 
         // Initialize the SDK
         Places.initializeWithNewPlacesApiEnabled(applicationContext, com.example.viewandroidapp.BuildConfig.GOOGLE_MAPS_KEY)
@@ -181,4 +184,21 @@ class PostsActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun getPostsByLocation(location: String?) {
+        Log.d("posts", "getPostsByLocation")
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                viewModel.posts = model.getAllPostsByLocation(location!!)
+                Log.d("posts", "post in view model : ${viewModel.posts.toString()}")
+
+            }
+            viewModel.posts?.observe(this@PostsActivity) {
+                recyclerView.adapter = PostAdapter(it, false)
+            }
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.loadingProgressBarPosts.visibility = View.GONE
+        }
+    }
+
 }

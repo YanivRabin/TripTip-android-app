@@ -10,17 +10,7 @@ import java.util.Date
 import java.util.Locale
 import android.content.Context
 
-@Entity(
-    foreignKeys = [
-        ForeignKey(
-            entity = User::class,
-            parentColumns = ["email"],
-            childColumns = ["ownerEmail"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],
-    indices = [Index("ownerEmail")]
-)
+@Entity
 data class Post (
     @PrimaryKey var id: String = "",
     val ownerEmail: String = "",
