@@ -72,6 +72,7 @@ class Model private constructor() {
 
     suspend fun getAllPostsByLocation(location: String): LiveData<List<Post>> {
         Log.d("posts", "getAllPostsByLocation from room : ${database.postDao().getPostsByOwnerEmail(location)}")
+        delay(2000)
         refreshPostsByLocation(location)
         delay(2000)
         Log.d("posts", "getAllPostsByLocation from room : ${database.postDao().getPostsByOwnerEmail(location)}")
@@ -99,8 +100,9 @@ class Model private constructor() {
 
     suspend fun getAllPostsByOwnerEmail(email: String): List<Post> {
         Log.d("posts", "getAllPostsByOwnerEmail from room : ${database.postDao().getPostsByOwnerEmail(email)}")
+        delay(2000)
         refreshPostsByOwnerEmail(email)
-        delay(3000)
+        delay(2000)
         Log.d("posts", "getAllPostsByOwnerEmail from room : ${database.postDao().getPostsByOwnerEmail(email)}")
         return database.postDao().getPostsByOwnerEmail(email)
     }
